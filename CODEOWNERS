@@ -1,0 +1,4 @@
+# This is a github CODEOWNERS file, which controls reviewers when a PR is opened
+# Github docs for CODEOWNERS is here: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+/.github/ @jee7s @dawilson9
