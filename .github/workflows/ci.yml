@@ -1,4 +1,5 @@
 # This YML defines the basic build CI job. For syntax, see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+# This workflow file is based on this WPILib Reference with modifications: https://docs.wpilib.org/en/stable/docs/software/advanced-gradlerio/robot-code-ci.html
 name: robot_ci
 
 # This action runs on all pull requests into main and develop and when the result of the pull request is merged.
