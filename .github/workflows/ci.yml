@@ -2,16 +2,14 @@
 # This workflow file is based on this WPILib Reference with modifications: https://docs.wpilib.org/en/stable/docs/software/advanced-gradlerio/robot-code-ci.html
 name: robot_ci
 
-# This action runs on all pull requests into main and develop and when the result of the pull request is merged.
+# This action runs on all pull requests into main and when the result of the pull request is merged.
 on: 
   pull_request:
     branches:
       - main
-      - develop
   push:
     branches:
       - main
-      - develop
 
 # The concurrency setting prevents multiple runs of this workflow on the same ref/hash
 concurrency: ${{ github.workflow }}-${{ github.ref }}
