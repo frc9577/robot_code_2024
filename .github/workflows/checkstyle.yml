@@ -1,14 +1,17 @@
+# This workflow executes (java) checkstyle and then uses reviewdog to post comments to the PR.
+# Reference: https://github.com/dbelyaev/action-checkstyle
 name: reviewdog-checkstyle
 
 on: [pull_request]
 
+# This job is the usage example from the owner of the action, except we specify a version rather than using the head
 jobs:
   checkstyle:
     name: runner / checkstyle
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dbelyaev/action-checkstyle@master
+      - uses: dbelyaev/action-checkstyle@v1.2.1
         with:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
