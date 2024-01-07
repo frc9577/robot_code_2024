@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class, specifically it contains
@@ -19,17 +21,22 @@ public class Robot extends TimedRobot {
   private Joystick m_leftStick;
   private Joystick m_rightStick;
 
-  private final MotorController m_leftMotor = new PWMSparkMax(0);
-  private final MotorController m_rightMotor = new PWMSparkMax(1);
+  private final MotorController m_leftFrontMotor  = new WPI_VictorSPX(10);
+  private final MotorController m_leftBackMotor   = new WPI_VictorSPX(11);
+  private final MotorController m_rightFrontMotor = new WPI_VictorSPX(20);
+  private final MotorController m_rightBackMotor  = new WPI_VictorSPX(21);
+
+  private final MotorControllerGroup m_leftMotorGroup  = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
+  private final MotorControllerGroup m_rightMotorGroup = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
 
   @Override
   public void robotInit() {
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
-    m_rightMotor.setInverted(true);
+    m_rightMotorGroup.setInverted(true);
 
-    m_myRobot = new DifferentialDrive(m_leftMotor, m_rightMotor);
+    m_myRobot = new DifferentialDrive(m_leftMotorGroup, m_rightMotorGroup);
     m_leftStick = new Joystick(0);
     m_rightStick = new Joystick(1);
   }
