@@ -4,12 +4,18 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 
 
 /**
@@ -29,6 +35,13 @@ public class Robot extends TimedRobot {
   private final MotorControllerGroup m_leftMotorGroup  = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
   private final MotorControllerGroup m_rightMotorGroup = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
 
+  /** Constants that define the settings of the driver camera */
+  public static final int kDriverCameraResolutionX = 640;
+  public static final int kDriverCameraResolutionY = 360;
+  public static final int kDriverCameraFPS         = 15;
+
+  private UsbCamera driverCamera;
+
   @Override
   public void robotInit() {
     // We need to invert one side of the drivetrain so that positive voltages
@@ -39,6 +52,12 @@ public class Robot extends TimedRobot {
     m_myRobot = new DifferentialDrive(m_leftMotorGroup, m_rightMotorGroup);
     m_leftStick = new Joystick(0);
     m_rightStick = new Joystick(1);
+
+    // Start the driver camera streaming.
+    driverCamera = CameraServer.startAutomaticCapture("Driver Camera", 0);
+    driverCamera.setResolution(kDriverCameraResolutionX, kDriverCameraResolutionY);
+    driverCamera.setFPS(kDriverCameraFPS);
+    driverCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
   }
 
   @Override
