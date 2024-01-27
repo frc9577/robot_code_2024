@@ -17,6 +17,9 @@ public final class Constants {
     public static final int kWinchJoystick = 0;
     public static final int kWinchUp   = 6;
     public static final int kWinchDown = 4;
+
+    public static final int kClimbUp = 5;
+    public static final int kClimbDown = 3;
   }
 
   public static class WinchConstants {
@@ -25,5 +28,16 @@ public final class Constants {
     public static final double kSpeedUp   = 0.25;
     public static final double kSpeedDown = -0.25;
     public static final double kSpeedStop = 0.0;
+  }
+
+  public static class ClimbConstants {
+    public static final int kPhCANid = 60;
+
+    // Temp Values, Needs to be changed when solunoid is set up onto the robot
+    public static final int kExtendChannelL = 1;
+    public static final int kRetractChannelL = 2;
+    
+    public static final int kExtendChannelR = 3;
+    public static final int kRetractChannelR = 4;
   }
 }

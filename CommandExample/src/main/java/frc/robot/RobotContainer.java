@@ -5,8 +5,11 @@
 package frc.robot;
 
 import frc.robot.Constants.*;
+import frc.robot.commands.DoubleSolenoidSetCommand;
 import frc.robot.commands.MotorConstSpeedCommand;
 import frc.robot.subsystems.WinchSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -20,13 +23,22 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final WinchSubsystem m_winchSubsystem = new WinchSubsystem();
+  private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+  // Joystick
   private final Joystick m_joystick = new Joystick(OperatorConstants.kWinchJoystick);
+
+  // Winch Buttons
   private final JoystickButton m_winchUpButton =
       new JoystickButton(m_joystick,OperatorConstants.kWinchUp);
   private final JoystickButton m_winchDownButton =
       new JoystickButton(m_joystick,OperatorConstants.kWinchDown);
+
+  // Pnuematics Climb Buttons
+  private final JoystickButton m_climbUpButton =
+    new JoystickButton(m_joystick, OperatorConstants.kClimbUp);
+  private final JoystickButton m_climbDownButton =
+    new JoystickButton(m_joystick, OperatorConstants.kClimbDown);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -35,7 +47,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // The winch up command and winch down command triggers.
+    // Winch Climb Buttons
 
     m_winchUpButton.onTrue(new MotorConstSpeedCommand(m_winchSubsystem, 
                                                       m_winchSubsystem.getMotorController(), 
@@ -50,6 +62,21 @@ public class RobotContainer {
     m_winchDownButton.onFalse(new MotorConstSpeedCommand(m_winchSubsystem, 
                                                        m_winchSubsystem.getMotorController(), 
                                                        WinchConstants.kSpeedStop));
+
+    // Pnuematics Climb Buttons
+    m_climbUpButton.onTrue(new DoubleSolenoidSetCommand(m_climbSubsystem, 
+                                                        m_climbSubsystem.getDoubleSolenoid(), 
+                                                        DoubleSolenoid.Value.kForward));
+    m_climbUpButton.onFalse(new DoubleSolenoidSetCommand(m_climbSubsystem, 
+                                                         m_climbSubsystem.getDoubleSolenoid(), 
+                                                         DoubleSolenoid.Value.kOff));
+
+    m_climbDownButton.onTrue(new DoubleSolenoidSetCommand(m_climbSubsystem, 
+                                                          m_climbSubsystem.getDoubleSolenoid(),
+                                                          DoubleSolenoid.Value.kReverse));
+    m_climbDownButton.onFalse(new DoubleSolenoidSetCommand(m_climbSubsystem, 
+                                                           m_climbSubsystem.getDoubleSolenoid(), 
+                                                           DoubleSolenoid.Value.kOff));
   }
 
   /**
