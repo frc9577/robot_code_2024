@@ -5,14 +5,14 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ClimbConstants;
+import frc.robot.Constants.ClimbConstants; 
 
 public class ClimbSubsystem extends SubsystemBase {
  private final DoubleSolenoid m_ClimbSolenoidL = new DoubleSolenoid(
-                  ClimbConstants.kPhCANid, PneumaticsModuleType.REVPH, 
+                  ClimbConstants.kPneumaticsHubCANid, PneumaticsModuleType.REVPH, 
                   ClimbConstants.kExtendChannelL, ClimbConstants.kRetractChannelL);
  private final DoubleSolenoid m_ClimbSolenoidR = new DoubleSolenoid(
-                  ClimbConstants.kPhCANid, PneumaticsModuleType.REVPH, 
+                  ClimbConstants.kPneumaticsHubCANid, PneumaticsModuleType.REVPH, 
                   ClimbConstants.kExtendChannelR, ClimbConstants.kRetractChannelR);
 
   /** Creates a new ClimbSubsystem. */

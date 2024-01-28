@@ -6,11 +6,15 @@ package frc.robot;
 
 import frc.robot.Constants.*;
 import frc.robot.commands.DoubleSolenoidSetCommand;
-import frc.robot.commands.MotorConstSpeedCommand;
-import frc.robot.subsystems.WinchSubsystem;
+//import frc.robot.commands.MotorConstSpeedCommand;
+//import frc.robot.subsystems.WinchSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -21,18 +25,21 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  private int m_tickCount = 0;
+
   // The robot's subsystems and commands are defined here...
-  private final WinchSubsystem m_winchSubsystem = new WinchSubsystem();
+  private final PneumaticHub m_pnuematicHub = new PneumaticHub();
+  //private final WinchSubsystem m_winchSubsystem = new WinchSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
 
   // Joystick
   private final Joystick m_joystick = new Joystick(OperatorConstants.kWinchJoystick);
 
   // Winch Buttons
-  private final JoystickButton m_winchUpButton =
-      new JoystickButton(m_joystick,OperatorConstants.kWinchUp);
-  private final JoystickButton m_winchDownButton =
-      new JoystickButton(m_joystick,OperatorConstants.kWinchDown);
+  //private final JoystickButton m_winchUpButton =
+  //    new JoystickButton(m_joystick,OperatorConstants.kWinchUp);
+  //private final JoystickButton m_winchDownButton =
+  //    new JoystickButton(m_joystick,OperatorConstants.kWinchDown);
 
   // Pnuematics Climb Buttons
   private final JoystickButton m_climbUpButton =
@@ -42,13 +49,27 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_pnuematicHub.enableCompressorAnalog(RobotConstants.minPnuematicsPressure,RobotConstants.maxPnuematicsPressure);
+
     // Configure the trigger bindings
     configureBindings();
+  }
+
+  public void reportStatus() {
+    if(m_tickCount % (RobotConstants.periodicTicksPerSecond/RobotConstants.pnuematicReportingFreq) == 0)
+    {
+      // Report pneumatic state
+      SmartDashboard.putNumber("Pressure", m_pnuematicHub.getPressure(0));
+      SmartDashboard.putBoolean("Compressor Running", m_pnuematicHub.getCompressor());
+    }
+
+    m_tickCount += 1;
   }
 
   private void configureBindings() {
     // Winch Climb Buttons
 
+    /**
     m_winchUpButton.onTrue(new MotorConstSpeedCommand(m_winchSubsystem, 
                                                       m_winchSubsystem.getMotorController(), 
                                                       WinchConstants.kSpeedUp));
@@ -62,6 +83,7 @@ public class RobotContainer {
     m_winchDownButton.onFalse(new MotorConstSpeedCommand(m_winchSubsystem, 
                                                        m_winchSubsystem.getMotorController(), 
                                                        WinchConstants.kSpeedStop));
+    */
 
     // Pnuematics Climb Buttons
     m_climbUpButton.onTrue(new DoubleSolenoidSetCommand(m_climbSubsystem, 

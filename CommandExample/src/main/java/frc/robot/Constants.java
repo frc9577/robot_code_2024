@@ -13,6 +13,14 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static class RobotConstants {
+    public static final double minPnuematicsPressure = 80.0;
+    public static final double maxPnuematicsPressure = 120.0;
+
+    public static final int periodicTicksPerSecond = 50;
+    public static final int pnuematicReportingFreq = 1;
+  }
+
   public static class OperatorConstants {
     public static final int kWinchJoystick = 0;
     public static final int kWinchUp   = 6;
@@ -31,7 +39,7 @@ public final class Constants {
   }
 
   public static class ClimbConstants {
-    public static final int kPhCANid = 60;
+    public static final int kPneumaticsHubCANid = 1;
 
     // Temp Values, Needs to be changed when solunoid is set up onto the robot
     public static final int kExtendChannelL = 1;
