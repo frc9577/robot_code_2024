@@ -21,6 +21,13 @@ public final class Constants {
     public static final int pnuematicReportingFreq = 1;
   }
 
+  public static class DrivetrainConstants {
+    public static final int kLeftFrontMotorCANID  = 10;
+    public static final int kLeftBackMotorCANID   = 11;
+    public static final int kRightFrontMotorCANID = 20;
+    public static final int kRightBackMotorCANID  = 21;
+  }
+
   public static class OperatorConstants {
     public static final int kWinchJoystick = 0;
     public static final int kWinchUp   = 6;

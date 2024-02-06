@@ -7,7 +7,7 @@ package frc.robot;
 import frc.robot.Constants.*;
 import frc.robot.commands.DoubleSolenoidSetCommand;
 //import frc.robot.commands.MotorConstSpeedCommand;
-//import frc.robot.subsystems.WinchSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,18 +28,12 @@ public class RobotContainer {
   private int m_tickCount = 0;
 
   // The robot's subsystems and commands are defined here...
-  private final PneumaticHub m_pnuematicHub = new PneumaticHub();
-  //private final WinchSubsystem m_winchSubsystem = new WinchSubsystem();
+  private final PneumaticHub   m_pnuematicHub   = new PneumaticHub();
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
 
   // Joystick
   private final Joystick m_joystick = new Joystick(OperatorConstants.kWinchJoystick);
-
-  // Winch Buttons
-  //private final JoystickButton m_winchUpButton =
-  //    new JoystickButton(m_joystick,OperatorConstants.kWinchUp);
-  //private final JoystickButton m_winchDownButton =
-  //    new JoystickButton(m_joystick,OperatorConstants.kWinchDown);
 
   // Pnuematics Climb Buttons
   private final JoystickButton m_climbUpButton =
@@ -66,25 +60,8 @@ public class RobotContainer {
     m_tickCount += 1;
   }
 
-  private void configureBindings() {
-    // Winch Climb Buttons
-
-    /**
-    m_winchUpButton.onTrue(new MotorConstSpeedCommand(m_winchSubsystem, 
-                                                      m_winchSubsystem.getMotorController(), 
-                                                      WinchConstants.kSpeedUp));
-    m_winchUpButton.onFalse(new MotorConstSpeedCommand(m_winchSubsystem, 
-                                                       m_winchSubsystem.getMotorController(), 
-                                                       WinchConstants.kSpeedStop));
-
-    m_winchDownButton.onTrue(new MotorConstSpeedCommand(m_winchSubsystem, 
-                                                      m_winchSubsystem.getMotorController(), 
-                                                      WinchConstants.kSpeedDown));
-    m_winchDownButton.onFalse(new MotorConstSpeedCommand(m_winchSubsystem, 
-                                                       m_winchSubsystem.getMotorController(), 
-                                                       WinchConstants.kSpeedStop));
-    */
-
+  private void configureBindings() 
+  {
     // Pnuematics Climb Buttons
     m_climbUpButton.onTrue(new DoubleSolenoidSetCommand(m_climbSubsystem, 
                                                         m_climbSubsystem.getDoubleSolenoid(), 
@@ -99,6 +76,8 @@ public class RobotContainer {
     m_climbDownButton.onFalse(new DoubleSolenoidSetCommand(m_climbSubsystem, 
                                                            m_climbSubsystem.getDoubleSolenoid(), 
                                                            DoubleSolenoid.Value.kOff));
+
+    // TODO: Add bindings for drive subsystem.
   }
 
   /**
