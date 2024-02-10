@@ -26,12 +26,6 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private State m_currentState = State.OFF;
 
-  // Returns solinoid one.
-  public TwoSolenoids getDoubleSolenoid()
-  {
-    return new TwoSolenoids(m_ClimbSolenoidL, m_ClimbSolenoidR);
-  }
-
   public void setClimbState(State newState)
   {
     m_currentState = newState;
