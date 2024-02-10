@@ -8,8 +8,29 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class GooseRotationSubsystem extends SubsystemBase {
+  private double m_angleSet = 0.0;
+
   /** Creates a new GooseRotationSubsystem. */
   public GooseRotationSubsystem() {}
+
+  public void setAngle(double angleDegrees)
+  {
+    // TODO: implement this
+
+    m_angleSet = angleDegrees;
+  }
+
+  public double getSetPointAngle()
+  {
+    return m_angleSet;
+  }
+
+  public double getActualAngle()
+  {
+    // TODO: implement this
+
+    return 0.0;
+  }
 
   /**
    * Example command factory method.
