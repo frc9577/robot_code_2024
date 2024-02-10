@@ -98,6 +98,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    //TODO Do all motors need to be turned off here?
   }
 
   /** This function is called periodically during operator control. */

@@ -4,6 +4,7 @@
 
 package frc.robot;
 import frc.robot.Constants.*;
+import frc.robot.commands.AutoNoteIntakeCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.NoteHandlingSpeedCommand;
 //import frc.robot.commands.MotorConstSpeedCommand;
@@ -86,6 +87,9 @@ public class RobotContainer {
     m_climbDownButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.GROUNDED));
 
     // Note handling Buttons
+    m_intakeAutoButton.onTrue(new AutoNoteIntakeCommand(m_noteHandlingSubsystem, 
+                                                        NoteHandlingConstants.kIntakeSpeed));
+
     m_intakeManualButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
                                                              NoteHandlingConstants.kIntakeSpeed));
     m_intakeManualButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
@@ -95,8 +99,6 @@ public class RobotContainer {
     m_outputButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
 
     m_fullStopButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
-
-    // TODO: Bind auto intake button
   }
 
   /**
