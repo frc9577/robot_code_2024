@@ -36,8 +36,13 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kOperatorController = 2;
 
-    public static final int kClimbUp = 4; // Button Y
-    public static final int kClimbDown = 1; // Button A
+    public static final int kClimbUp      = 4; // Button Y
+    public static final int kClimbDown    = 1; // Button A
+
+    public static final int kIntakeAuto   = 5; // Left Bumper
+    public static final int kOutput       = 6; // Right Bumper
+    public static final int kIntakeManual = 3; // Button X
+    public static final int kFullStop     = 2; // Button B
   }
 
   public static class ClimbConstants {
@@ -57,6 +62,9 @@ public final class Constants {
 
     public static final int kNoteSensorChannel = 0;
     public static final boolean kNoteSensorNormallyOpen = true;
+
+    public static final double kIntakeSpeed = 0.25;
+    public static final double kOutputSpeed = 0.25;
   }
 
   public static class GooseRotationConstants {

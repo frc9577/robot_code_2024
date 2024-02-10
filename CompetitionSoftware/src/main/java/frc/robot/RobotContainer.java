@@ -5,6 +5,7 @@
 package frc.robot;
 import frc.robot.Constants.*;
 import frc.robot.commands.ClimbCommand;
+import frc.robot.commands.NoteHandlingSpeedCommand;
 //import frc.robot.commands.MotorConstSpeedCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GooseRotationSubsystem;
@@ -46,6 +47,16 @@ public class RobotContainer {
   private final JoystickButton m_climbDownButton =
     new JoystickButton(m_operatorController, OperatorConstants.kClimbDown);
 
+  // Note Handling Buttons
+  private final JoystickButton m_intakeAutoButton = 
+    new JoystickButton(m_operatorController, OperatorConstants.kIntakeAuto);
+  private final JoystickButton m_outputButton = 
+    new JoystickButton(m_operatorController, OperatorConstants.kOutput);
+  private final JoystickButton m_intakeManualButton = 
+    new JoystickButton(m_operatorController, OperatorConstants.kIntakeManual);
+  private final JoystickButton m_fullStopButton = 
+    new JoystickButton(m_operatorController, OperatorConstants.kFullStop);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     m_pnuematicHub.enableCompressorAnalog(RobotConstants.minPnuematicsPressure,RobotConstants.maxPnuematicsPressure);
@@ -73,6 +84,19 @@ public class RobotContainer {
     // Climb Buttons
     m_climbUpButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.LIFTED));
     m_climbDownButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.GROUNDED));
+
+    // Note handling Buttons
+    m_intakeManualButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
+                                                             NoteHandlingConstants.kIntakeSpeed));
+    m_intakeManualButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
+    
+    m_outputButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
+                                                       NoteHandlingConstants.kOutputSpeed));
+    m_outputButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
+
+    m_fullStopButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
+
+    // TODO: Bind auto intake button
   }
 
   /**
