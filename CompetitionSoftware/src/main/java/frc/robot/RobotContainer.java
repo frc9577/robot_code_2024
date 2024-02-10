@@ -3,17 +3,19 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
 import frc.robot.Constants.*;
 import frc.robot.commands.ClimbCommand;
 //import frc.robot.commands.MotorConstSpeedCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.GooseRotationSubsystem;
+import frc.robot.subsystems.NoteHandlingSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -30,17 +32,19 @@ public class RobotContainer {
   private final PneumaticHub   m_pnuematicHub   = new PneumaticHub();
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
+  private final GooseRotationSubsystem m_rotationSubsystem    = new GooseRotationSubsystem();
+  private final NoteHandlingSubsystem m_noteHandlingSubsystem = new NoteHandlingSubsystem();
 
   // Joysticks
-  private final Joystick m_operatorJoystick = new Joystick(OperatorConstants.kOperatorJoystick);
+  private final XboxController m_operatorController = new XboxController(OperatorConstants.kOperatorController);
   private final Joystick m_driverJoystickLeft = new Joystick(DriverConstants.kLeftDriveJoystick);
   private final Joystick m_driverJoystickRight = new Joystick(DriverConstants.kRightDriveJoystick);
 
   // Pnuematics Climb Buttons
   private final JoystickButton m_climbUpButton =
-    new JoystickButton(m_operatorJoystick, OperatorConstants.kClimbUp);
+    new JoystickButton(m_operatorController, OperatorConstants.kClimbUp);
   private final JoystickButton m_climbDownButton =
-    new JoystickButton(m_operatorJoystick, OperatorConstants.kClimbDown);
+    new JoystickButton(m_operatorController, OperatorConstants.kClimbDown);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

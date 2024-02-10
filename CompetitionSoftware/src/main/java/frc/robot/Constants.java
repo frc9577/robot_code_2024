@@ -34,10 +34,10 @@ public final class Constants {
   }
 
   public static class OperatorConstants {
-    public static final int kOperatorJoystick = 2;
+    public static final int kOperatorController = 2;
 
-    public static final int kClimbUp = 5;
-    public static final int kClimbDown = 3;
+    public static final int kClimbUp = 4; // Button Y
+    public static final int kClimbDown = 1; // Button A
   }
 
   public static class WinchConstants {
