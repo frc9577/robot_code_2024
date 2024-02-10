@@ -40,14 +40,6 @@ public final class Constants {
     public static final int kClimbDown = 1; // Button A
   }
 
-  public static class WinchConstants {
-    public static final int kMotorCANid   = 50;
-
-    public static final double kSpeedUp   = 0.25;
-    public static final double kSpeedDown = -0.25;
-    public static final double kSpeedStop = 0.0;
-  }
-
   public static class ClimbConstants {
     public static final int kPneumaticsHubCANid = 1;
 
@@ -57,5 +49,17 @@ public final class Constants {
     
     public static final int kExtendChannelR = 3;
     public static final int kRetractChannelR = 4;
+  }
+
+  public static class NoteHandlingConstants {
+    public static final int kIntakeMotorCANID = 30;
+    public static final int kOutputMotorCANID = 31;
+
+    public static final int kNoteSensorChannel = 0;
+    public static final boolean kNoteSensorNormallyOpen = true;
+  }
+
+  public static class GooseRotationConstants {
+    public static final int kRotateMotorCANID = 40;
   }
 }

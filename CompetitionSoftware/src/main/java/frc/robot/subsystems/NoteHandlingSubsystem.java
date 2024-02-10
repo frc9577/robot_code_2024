@@ -4,6 +4,12 @@
 
 package frc.robot.subsystems;
 
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import frc.robot.Constants.*;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -11,12 +17,19 @@ public class NoteHandlingSubsystem extends SubsystemBase {
   private double m_intakeSpeed = 0;
   private double m_outputSpeed = 0;
 
+  private final CANSparkMax m_intakeMotor = new CANSparkMax(NoteHandlingConstants.kIntakeMotorCANID, 
+                                                            MotorType.kBrushless);
+  private final CANSparkMax m_outputMotor = new CANSparkMax(NoteHandlingConstants.kOutputMotorCANID,
+                                                            MotorType.kBrushless);
+
+  private final DigitalInput m_noteSensor = new DigitalInput(NoteHandlingConstants.kNoteSensorChannel);
+  
   /** Creates a new NoteHandlingSubsystem. */  
   public NoteHandlingSubsystem() {}
 
   public void setIntakeSpeed(double speed)
   {
-    // TODO: Sets intake motor speed.
+    m_intakeMotor.set(speed);
     m_intakeSpeed = speed;
   }
   
@@ -28,7 +41,7 @@ public class NoteHandlingSubsystem extends SubsystemBase {
 
   public void setOutputSpeed(double speed)
   {
-    // TODO: Sets intake motor speed.
+    m_outputMotor.set(speed);
     m_outputSpeed = speed;
   }
 
@@ -38,12 +51,15 @@ public class NoteHandlingSubsystem extends SubsystemBase {
     return m_outputSpeed;
   }
 
-  public boolean hasNote() // Gets sensor result if it has the note and then and returns it
+  public boolean hasNote()
   {
-    boolean result = false;
-    // TODO: Reads sensor, When its not default return true.
+    // DIO's on roborio have pullup resistor meaning 
+    // they read as 1 when connected switches are not grounded.
+    // If a normally-open switch is used they will read as 1 until pressed.
+    // if a normally-closed switch is used they will read as 0 until pressed.
 
-    return result;
+    boolean dioValue = m_noteSensor.get();
+    return !(dioValue ^ NoteHandlingConstants.kNoteSensorNormallyOpen);
   }
 
   /**
