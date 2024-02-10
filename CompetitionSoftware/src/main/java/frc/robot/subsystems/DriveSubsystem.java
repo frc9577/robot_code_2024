@@ -46,7 +46,7 @@ public class DriveSubsystem extends SubsystemBase
     setDefaultCommand(new DriveCommand(this, leftJoystick, rightJoystick));
   }
 
-  public void SetSpeeds(double leftInput, double rightInput)
+  public void setSpeeds(double leftInput, double rightInput)
   {
     m_leftSpeed = leftInput;
     m_rightSpeed = rightInput;
@@ -55,7 +55,7 @@ public class DriveSubsystem extends SubsystemBase
     m_Drivetrain.tankDrive(leftInput, rightInput, true);
   }
 
-  public double GetSpeed(boolean bLeft)
+  public double getSpeed(boolean bLeft)
   {
     if (bLeft)
     {

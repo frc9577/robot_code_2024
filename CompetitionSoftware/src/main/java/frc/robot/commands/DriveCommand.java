@@ -35,7 +35,7 @@ public class DriveCommand extends Command {
   @Override
   public void execute() 
   {
-    m_subsystem.SetSpeeds(-m_leftJoystick.getY(), -m_rightJoyStick.getY());
+    m_subsystem.setSpeeds(-m_leftJoystick.getY(), -m_rightJoyStick.getY());
   }
 
   // Called once the command ends or is interrupted.
