@@ -28,10 +28,13 @@ public final class Constants {
     public static final int kRightBackMotorCANID  = 21;
   }
 
+  public static class DriverConstants {
+    public static final int kLeftDriveJoystick = 0;
+    public static final int kRightDriveJoystick = 1;
+  }
+
   public static class OperatorConstants {
-    public static final int kWinchJoystick = 0;
-    public static final int kWinchUp   = 6;
-    public static final int kWinchDown = 4;
+    public static final int kOperatorJoystick = 2;
 
     public static final int kClimbUp = 5;
     public static final int kClimbDown = 3;

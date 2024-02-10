@@ -5,7 +5,9 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.*;
+import frc.robot.commands.DriveCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import com.ctre.phoenix6.controls.Follower;
@@ -39,12 +41,18 @@ public class DriveSubsystem extends SubsystemBase
     m_Drivetrain = new DifferentialDrive(m_leftFrontMotor, m_rightFrontMotor);
   }
 
-  public void SetSpeeds(double leftSpeed, double rightSpeed)
+  public void initDefaultCommand(Joystick leftJoystick, Joystick rightJoystick)
   {
-    m_leftSpeed = leftSpeed;
-    m_rightSpeed = rightSpeed;
+    setDefaultCommand(new DriveCommand(this, leftJoystick, rightJoystick));
+  }
 
-    m_Drivetrain.tankDrive(leftSpeed, rightSpeed);
+  public void SetSpeeds(double leftInput, double rightInput)
+  {
+    m_leftSpeed = leftInput;
+    m_rightSpeed = rightInput;
+
+    // NOTE: We are squaring the input to improve driver response
+    m_Drivetrain.tankDrive(leftInput, rightInput, true);
   }
 
   public double GetSpeed(boolean bLeft)

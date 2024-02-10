@@ -31,14 +31,16 @@ public class RobotContainer {
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
 
-  // Joystick
-  private final Joystick m_joystick = new Joystick(OperatorConstants.kWinchJoystick);
+  // Joysticks
+  private final Joystick m_operatorJoystick = new Joystick(OperatorConstants.kOperatorJoystick);
+  private final Joystick m_driverJoystickLeft = new Joystick(DriverConstants.kLeftDriveJoystick);
+  private final Joystick m_driverJoystickRight = new Joystick(DriverConstants.kRightDriveJoystick);
 
   // Pnuematics Climb Buttons
   private final JoystickButton m_climbUpButton =
-    new JoystickButton(m_joystick, OperatorConstants.kClimbUp);
+    new JoystickButton(m_operatorJoystick, OperatorConstants.kClimbUp);
   private final JoystickButton m_climbDownButton =
-    new JoystickButton(m_joystick, OperatorConstants.kClimbDown);
+    new JoystickButton(m_operatorJoystick, OperatorConstants.kClimbDown);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -61,11 +63,12 @@ public class RobotContainer {
 
   private void configureBindings() 
   {
+    // Drive Controllers
+    m_driveSubsystem.initDefaultCommand(m_driverJoystickLeft, m_driverJoystickRight);
+
     // Climb Buttons
     m_climbUpButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.LIFTED));
     m_climbDownButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.GROUNDED));
-
-    // TODO: Add bindings for drive subsystem.
   }
 
   /**
