@@ -5,14 +5,13 @@
 package frc.robot;
 
 import frc.robot.Constants.*;
-import frc.robot.commands.DoubleSolenoidSetCommand;
+import frc.robot.commands.ClimbCommand;
 //import frc.robot.commands.MotorConstSpeedCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -62,20 +61,9 @@ public class RobotContainer {
 
   private void configureBindings() 
   {
-    // Pnuematics Climb Buttons
-    m_climbUpButton.onTrue(new DoubleSolenoidSetCommand(m_climbSubsystem, 
-                                                        m_climbSubsystem.getDoubleSolenoid(), 
-                                                        DoubleSolenoid.Value.kForward));
-    m_climbUpButton.onFalse(new DoubleSolenoidSetCommand(m_climbSubsystem, 
-                                                         m_climbSubsystem.getDoubleSolenoid(), 
-                                                         DoubleSolenoid.Value.kOff));
-
-    m_climbDownButton.onTrue(new DoubleSolenoidSetCommand(m_climbSubsystem, 
-                                                          m_climbSubsystem.getDoubleSolenoid(),
-                                                          DoubleSolenoid.Value.kReverse));
-    m_climbDownButton.onFalse(new DoubleSolenoidSetCommand(m_climbSubsystem, 
-                                                           m_climbSubsystem.getDoubleSolenoid(), 
-                                                           DoubleSolenoid.Value.kOff));
+    // Climb Buttons
+    m_climbUpButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.LIFTED));
+    m_climbDownButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.GROUNDED));
 
     // TODO: Add bindings for drive subsystem.
   }

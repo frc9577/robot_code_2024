@@ -18,10 +18,47 @@ public class ClimbSubsystem extends SubsystemBase {
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {}
 
+  public enum State {
+    OFF,
+    LIFTED,
+    GROUNDED
+  }
+
+  private State m_currentState = State.OFF;
+
   // Returns solinoid one.
   public TwoSolenoids getDoubleSolenoid()
   {
     return new TwoSolenoids(m_ClimbSolenoidL, m_ClimbSolenoidR);
+  }
+
+  public void setClimbState(State newState)
+  {
+    m_currentState = newState;
+    DoubleSolenoid.Value newValue = DoubleSolenoid.Value.kOff;
+
+    switch (m_currentState) 
+    {
+      case OFF:
+        newValue = DoubleSolenoid.Value.kOff;
+        break;
+
+      case LIFTED:
+        newValue = DoubleSolenoid.Value.kReverse;
+        break;
+
+      case GROUNDED:
+        newValue = DoubleSolenoid.Value.kForward;
+        break;
+    }
+
+    m_ClimbSolenoidL.set(newValue);
+    m_ClimbSolenoidR.set(newValue);
+  }
+
+  public State getClimbState()
+  {
+    return m_currentState;
   }
 
   @Override
