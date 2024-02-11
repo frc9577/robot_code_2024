@@ -1,22 +1,55 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+// Supports the rotation of the goose arm.
+// The coordinate system used here has 0 as the intake down position with angles
+// increasing as the arm raises. The assumption is that it starts at a non-zero
+// position defined by the constant GooseRotationConstants.kStartingAngle.
+// All angles at the interface are in degrees.
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 
-public class GooseRotationSubsystem extends SubsystemBase {
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import frc.robot.Constants.GooseRotationConstants;
+
+public class GooseRotationSubsystem extends PIDSubsystem {
   private double m_angleSet = 0.0;
-
+  private final CANSparkMax m_rotationMotor = new CANSparkMax(GooseRotationConstants.kRotateMotorCANID, 
+                                                              MotorType.kBrushless);
+  private final RelativeEncoder m_Encoder = m_rotationMotor.getEncoder();
+                                                        
   /** Creates a new GooseRotationSubsystem. */
-  public GooseRotationSubsystem() {}
+  public GooseRotationSubsystem() 
+  {
+    super(new PIDController(GooseRotationConstants.kP, 
+                            GooseRotationConstants.kI, 
+                            GooseRotationConstants.kD));
+    
+    m_Encoder.setPosition(getMotorPositionFromAngle(GooseRotationConstants.kStartingAngle));
+  }
+
+  private double getAngleFromMotorPosition(double motorShaftRotations)
+  {
+    double outputShaftRotations = motorShaftRotations / GooseRotationConstants.kOutputShaftRatio;
+    double angle = outputShaftRotations * 360.0;
+
+    // It is know that it can return angles outside 0-360. 
+    // This is fine for our application.
+    return angle;
+  }
+
+  private double getMotorPositionFromAngle(double angle)
+  {
+    double outputShaftRotations = angle / 360.0;
+    double motorShaftRotations = outputShaftRotations * GooseRotationConstants.kOutputShaftRatio;
+    return motorShaftRotations;
+  }
 
   public void setAngle(double angleDegrees)
   {
-    // TODO: implement this
-
+    super.setSetpoint(angleDegrees);
     m_angleSet = angleDegrees;
   }
 
@@ -25,44 +58,14 @@ public class GooseRotationSubsystem extends SubsystemBase {
     return m_angleSet;
   }
 
-  public double getActualAngle()
-  {
-    // TODO: implement this
-
-    return 0.0;
-  }
-
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
+  @Override
+  protected void useOutput(double output, double setpoint) {
+    m_rotationMotor.set(output);
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
+  protected double getMeasurement() {
+    double position = m_Encoder.getPosition();
+    return getAngleFromMotorPosition(position);
   }
 }

@@ -36,13 +36,18 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kOperatorController = 2;
 
-    public static final int kClimbUp      = 4; // Button Y
-    public static final int kClimbDown    = 1; // Button A
+    public static final int kClimbUp        = 4; // Button Y
+    public static final int kClimbDown      = 1; // Button A
 
-    public static final int kIntakeAuto   = 5; // Left Bumper
-    public static final int kOutput       = 6; // Right Bumper
-    public static final int kIntakeManual = 3; // Button X
-    public static final int kFullStop     = 2; // Button B
+    public static final int kIntakeAuto     = 5; // Left Bumper
+    public static final int kOutput         = 6; // Right Bumper
+    public static final int kIntakeManual   = 3; // Button X
+    public static final int kFullStop       = 2; // Button B
+
+    public static final int kMoveArmTop     = 8; // Start Button
+    public static final int kMoveArmBottom  = 7; // Back Button
+
+    public static final int kMoveArmAngle   = 5; // Right joystick Y
   }
 
   public static class ClimbConstants {
@@ -69,5 +74,21 @@ public final class Constants {
 
   public static class GooseRotationConstants {
     public static final int kRotateMotorCANID = 40;
+
+    public static final double kP = 0.0005;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+
+    // Starting in a non-end positon, there will be a switch at one or both of the end positions.
+    // When the switch(s) are hit the software will reset to the known position.
+    // Currently we are presuming there will be a thing to set the arm at the start of the game.
+    public static final double kStartingAngle         = 30.0;
+    public static final double kBottomAngle           = 0.0;
+    public static final double kTopAngle              = 90.0;
+
+    // This defines the gear ratio between the motor and output shafts. Divide
+    // the motor rotation count by this number to determine the output shaft
+    // rotation count.
+    public static final int kOutputShaftRatio         = 100;
   }
 }

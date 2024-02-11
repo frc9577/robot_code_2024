@@ -7,6 +7,7 @@ import frc.robot.Constants.*;
 import frc.robot.commands.AutoNoteIntakeCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.NoteHandlingSpeedCommand;
+import frc.robot.commands.RotateCommand;
 //import frc.robot.commands.MotorConstSpeedCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GooseRotationSubsystem;
@@ -58,6 +59,12 @@ public class RobotContainer {
   private final JoystickButton m_fullStopButton = 
     new JoystickButton(m_operatorController, OperatorConstants.kFullStop);
 
+  // Goose Rotation Buttons
+  private final JoystickButton m_moveArmTopButton = 
+    new JoystickButton(m_operatorController, OperatorConstants.kMoveArmTop);
+  private final JoystickButton m_moveArmBottomButton = 
+    new JoystickButton(m_operatorController, OperatorConstants.kMoveArmBottom);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     m_pnuematicHub.enableCompressorAnalog(RobotConstants.minPnuematicsPressure,RobotConstants.maxPnuematicsPressure);
@@ -99,6 +106,12 @@ public class RobotContainer {
     m_outputButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
 
     m_fullStopButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
+
+    // Goose Rotation Buttons
+    m_moveArmTopButton.onTrue(new RotateCommand(m_rotationSubsystem, 
+                                                GooseRotationConstants.kTopAngle));
+    m_moveArmBottomButton.onTrue(new RotateCommand(m_rotationSubsystem, 
+                                                   GooseRotationConstants.kBottomAngle));
   }
 
   /**
