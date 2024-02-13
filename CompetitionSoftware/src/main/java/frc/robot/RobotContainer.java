@@ -5,6 +5,7 @@
 package frc.robot;
 import frc.robot.Constants.*;
 import frc.robot.commands.AutoNoteIntakeCommand;
+import frc.robot.commands.AutonomousPassLine;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.NoteHandlingSpeedCommand;
 import frc.robot.commands.RotateCommand;
@@ -13,7 +14,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GooseRotationSubsystem;
 import frc.robot.subsystems.NoteHandlingSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -30,6 +31,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   private int m_tickCount = 0;
+  // Create SmartDashboard chooser for autonomous routines
+  private final SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
   // The robot's subsystems and commands are defined here...
   private final PneumaticHub   m_pnuematicHub   = new PneumaticHub();
@@ -68,6 +71,8 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     m_pnuematicHub.enableCompressorAnalog(RobotConstants.minPnuematicsPressure,RobotConstants.maxPnuematicsPressure);
+    
+    configureAutoChooser();
 
     // Configure the trigger bindings
     configureBindings();
@@ -88,6 +93,14 @@ public class RobotContainer {
     }
 
     m_tickCount += 1;
+  }
+
+  private void configureAutoChooser()
+  {
+    // Setup SmartDashboard options
+    m_autoChooser.setDefaultOption("Pass Auto Line", new AutonomousPassLine(m_driveSubsystem));
+    // m_autoChooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
+    SmartDashboard.putData(m_autoChooser);
   }
 
   private void configureBindings() 
@@ -126,7 +139,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // Do nothing in auto.
-    return null;
+    return m_autoChooser.getSelected();
   }
 }

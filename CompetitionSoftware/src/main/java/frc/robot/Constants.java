@@ -22,6 +22,11 @@ public final class Constants {
     public static final int imuReportingFreq = 1;
   }
 
+  public static class AutoConstants {
+    public static final long kPassLineDuration_mS = 3000;
+    public static final double kPassLineSpeed = 0.25;
+  }
+
   public static class DrivetrainConstants {
     public static final int kLeftFrontMotorCANID  = 10;
     public static final int kLeftBackMotorCANID   = 11;
