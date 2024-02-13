@@ -19,6 +19,7 @@ public final class Constants {
 
     public static final int periodicTicksPerSecond = 50;
     public static final int pnuematicReportingFreq = 1;
+    public static final int imuReportingFreq = 1;
   }
 
   public static class DrivetrainConstants {
