@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.DriverConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 /** An example command that uses an example subsystem. */
@@ -35,11 +36,10 @@ public class ArcadeDriveCommand extends Command {
   @Override
   public void execute() 
   {
-    // Note: We negate the Y axis value so that pushing the joystick forwards
-    // (which makes the readin more negative) increases the speed. The twist
-    // axis is already correct, increasing clockwise, so we don't need to negate
-    // it.
-    m_subsystem.setArcadeSpeeds(-m_Joystick.getY(), m_Joystick.getTwist());
+    // Note: We negate both axis values so that pushing the joystick forwards
+    // (which makes the readin more negative) increases the speed and twisting clockwise
+    // turns the robot clockwise.
+    m_subsystem.setArcadeSpeeds(-m_Joystick.getY(), -(m_Joystick.getTwist()/DriverConstants.kTurnDivider));
   }
 
   // Called once the command ends or is interrupted.
