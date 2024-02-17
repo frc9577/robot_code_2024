@@ -55,25 +55,25 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, OperatorConstants.kClimbDown);
 
   // Note Handling Buttons
-  private final JoystickButton m_intakeAutoButton = 
+  private final JoystickButton m_intakeAutoButton =
     new JoystickButton(m_operatorController, OperatorConstants.kIntakeAuto);
-  private final JoystickButton m_outputButton = 
+  private final JoystickButton m_outputButton =
     new JoystickButton(m_operatorController, OperatorConstants.kOutput);
-  private final JoystickButton m_intakeManualButton = 
+  private final JoystickButton m_intakeManualButton =
     new JoystickButton(m_operatorController, OperatorConstants.kIntakeManual);
-  private final JoystickButton m_fullStopButton = 
+  private final JoystickButton m_fullStopButton =
     new JoystickButton(m_operatorController, OperatorConstants.kFullStop);
 
   // Goose Rotation Buttons
-  private final JoystickButton m_moveArmTopButton = 
+  private final JoystickButton m_moveArmTopButton =
     new JoystickButton(m_operatorController, OperatorConstants.kMoveArmTop);
-  private final JoystickButton m_moveArmBottomButton = 
+  private final JoystickButton m_moveArmBottomButton =
     new JoystickButton(m_operatorController, OperatorConstants.kMoveArmBottom);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     m_pnuematicHub.enableCompressorAnalog(RobotConstants.minPnuematicsPressure,RobotConstants.maxPnuematicsPressure);
-    
+
     // Set up SmartDashboard/Shuffleboard widgets for driver/operator use.
     configureDriverStationControls();
 
@@ -114,7 +114,7 @@ public class RobotContainer {
     SmartDashboard.putData(m_driveTypeChooser);
   }
 
-  private void configureBindings() 
+  private void configureBindings()
   {
     // Drive Controllers. We set arcade drive as the default here but may change this
     // during teleopInit depending upon the value of a dashboard chooser.
@@ -125,23 +125,23 @@ public class RobotContainer {
     m_climbDownButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.GROUNDED));
 
     // Note handling Buttons
-    m_intakeAutoButton.onTrue(new AutoNoteIntakeCommand(m_noteHandlingSubsystem, 
+    m_intakeAutoButton.onTrue(new AutoNoteIntakeCommand(m_noteHandlingSubsystem,
                                                         NoteHandlingConstants.kIntakeSpeed));
 
-    m_intakeManualButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
+    m_intakeManualButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,
                                                              NoteHandlingConstants.kIntakeSpeed));
     m_intakeManualButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
-    
-    m_outputButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
+
+    m_outputButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,
                                                        NoteHandlingConstants.kOutputSpeed));
     m_outputButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
 
     m_fullStopButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
 
     // Goose Rotation Buttons
-    m_moveArmTopButton.onTrue(new RotateCommand(m_rotationSubsystem, 
+    m_moveArmTopButton.onTrue(new RotateCommand(m_rotationSubsystem,
                                                 GooseRotationConstants.kTopAngle));
-    m_moveArmBottomButton.onTrue(new RotateCommand(m_rotationSubsystem, 
+    m_moveArmBottomButton.onTrue(new RotateCommand(m_rotationSubsystem,
                                                    GooseRotationConstants.kBottomAngle));
   }
 
@@ -160,5 +160,9 @@ public class RobotContainer {
   {
     Boolean bArcade = m_driveTypeChooser.getSelected();
     m_driveSubsystem.initDefaultCommand(m_driverJoystickLeft, m_driverJoystickRight, bArcade);
+  }
+
+  public void disableCompressor(){
+    m_pnuematicHub.setCompressor(false);
   }
 }

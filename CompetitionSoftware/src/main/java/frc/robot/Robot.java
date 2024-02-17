@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
+import edu.wpi.first.wpilibj.RobotController;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,7 +29,7 @@ public class Robot extends TimedRobot {
   public static final int kDriverCameraResolutionX = 640;
   public static final int kDriverCameraResolutionY = 360;
   public static final int kDriverCameraFPS         = 15;
-  
+
   private UsbCamera driverCamera;
 
   /**
@@ -101,14 +102,16 @@ public class Robot extends TimedRobot {
 
     // Get the driver's choice of control system - arcade or tank drive.
     m_robotContainer.setDriveType();
-    
+
     //TODO Do all motors need to be turned off here?
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    
+    if(RobotController.getUserButton()){
+      m_robotContainer.disableCompressor();
+    }
   }
 
   @Override
