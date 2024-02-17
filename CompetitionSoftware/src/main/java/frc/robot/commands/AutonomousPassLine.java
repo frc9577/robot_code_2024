@@ -30,7 +30,7 @@ public class AutonomousPassLine extends Command {
   @Override
   public void initialize() {
     m_startTime = System.currentTimeMillis();
-    m_subsystem.setSpeeds(0.0, 0.0);
+    m_subsystem.setTankSpeeds(0.0, 0.0);
 
     m_leftSpeed = AutoConstants.kPassLineSpeed;
     m_rightSpeed = AutoConstants.kPassLineSpeed;
@@ -39,13 +39,13 @@ public class AutonomousPassLine extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setSpeeds(m_leftSpeed, m_rightSpeed);
+    m_subsystem.setTankSpeeds(m_leftSpeed, m_rightSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.setSpeeds(0.0, 0.0);
+    m_subsystem.setTankSpeeds(0.0, 0.0);
   }
 
   // Returns true when the command should end.

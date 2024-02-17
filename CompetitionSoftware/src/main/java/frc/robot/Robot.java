@@ -98,6 +98,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    // Get the driver's choice of control system - arcade or tank drive.
+    m_robotContainer.setDriveType();
+    
     //TODO Do all motors need to be turned off here?
   }
 

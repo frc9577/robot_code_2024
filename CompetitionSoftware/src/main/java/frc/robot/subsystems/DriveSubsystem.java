@@ -5,7 +5,8 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.*;
-import frc.robot.commands.DriveCommand;
+import frc.robot.commands.TankDriveCommand;
+import frc.robot.commands.ArcadeDriveCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -48,18 +49,34 @@ public class DriveSubsystem extends SubsystemBase
     m_NavX.zeroYaw();
   }
 
-  public void initDefaultCommand(Joystick leftJoystick, Joystick rightJoystick)
+  public void initDefaultCommand(Joystick leftJoystick, Joystick rightJoystick, Boolean bArcadeDrive)
   {
-    setDefaultCommand(new DriveCommand(this, leftJoystick, rightJoystick));
+    if (bArcadeDrive)
+    {
+      setDefaultCommand(new ArcadeDriveCommand(this, leftJoystick));
+    }
+    else
+    {
+      setDefaultCommand(new TankDriveCommand(this, leftJoystick, rightJoystick));
+    }
   }
 
-  public void setSpeeds(double leftInput, double rightInput)
+  public void setTankSpeeds(double leftInput, double rightInput)
   {
     m_leftSpeed = leftInput;
     m_rightSpeed = rightInput;
 
     // NOTE: We are squaring the input to improve driver response
     m_Drivetrain.tankDrive(leftInput, rightInput, true);
+  }
+
+  public void setArcadeSpeeds(double speed, double rotation)
+  {
+    m_leftSpeed = speed;
+    m_rightSpeed = rotation;
+
+    // NOTE: We are squaring the input to improve driver response
+    m_Drivetrain.arcadeDrive(speed, rotation, true);
   }
 
   public double getSpeed(boolean bLeft)

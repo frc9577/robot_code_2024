@@ -31,8 +31,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   private int m_tickCount = 0;
+
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_autoChooser = new SendableChooser<>();
+  private final SendableChooser<Boolean> m_driveTypeChooser = new SendableChooser<>();
 
   // The robot's subsystems and commands are defined here...
   private final PneumaticHub   m_pnuematicHub   = new PneumaticHub();
@@ -72,7 +74,8 @@ public class RobotContainer {
   public RobotContainer() {
     m_pnuematicHub.enableCompressorAnalog(RobotConstants.minPnuematicsPressure,RobotConstants.maxPnuematicsPressure);
     
-    configureAutoChooser();
+    // Set up SmartDashboard/Shuffleboard widgets for driver/operator use.
+    configureDriverStationControls();
 
     // Configure the trigger bindings
     configureBindings();
@@ -95,18 +98,27 @@ public class RobotContainer {
     m_tickCount += 1;
   }
 
-  private void configureAutoChooser()
+  //
+  // Configure all options that we want to display on the Shuffleboard dashboard.
+  //
+  private void configureDriverStationControls()
   {
-    // Setup SmartDashboard options
+    // Drop-down chooser for auto program.
     m_autoChooser.setDefaultOption("Pass Auto Line", new AutonomousPassLine(m_driveSubsystem));
     // m_autoChooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
     SmartDashboard.putData(m_autoChooser);
+
+    // Drive control option selector
+    m_driveTypeChooser.setDefaultOption("Arcade Drive", true);
+    m_driveTypeChooser.addOption("Tank Drive", false);
+    SmartDashboard.putData(m_driveTypeChooser);
   }
 
   private void configureBindings() 
   {
-    // Drive Controllers
-    m_driveSubsystem.initDefaultCommand(m_driverJoystickLeft, m_driverJoystickRight);
+    // Drive Controllers. We set arcade drive as the default here but may change this
+    // during teleopInit depending upon the value of a dashboard chooser.
+    m_driveSubsystem.initDefaultCommand(m_driverJoystickLeft, m_driverJoystickRight, true);
 
     // Climb Buttons
     m_climbUpButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.LIFTED));
@@ -140,5 +152,13 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return m_autoChooser.getSelected();
+  }
+
+  // Set the driver's choice of control mode based on the selection provided
+  // in a dashboard control.
+  public void setDriveType()
+  {
+    Boolean bArcade = m_driveTypeChooser.getSelected();
+    m_driveSubsystem.initDefaultCommand(m_driverJoystickLeft, m_driverJoystickRight, bArcade);
   }
 }
