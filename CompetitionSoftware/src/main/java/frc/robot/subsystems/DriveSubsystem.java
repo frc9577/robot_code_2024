@@ -73,16 +73,16 @@ public class DriveSubsystem extends SubsystemBase
     m_rightSpeed = m_driveStraight ? m_leftSpeed : (rightInput / m_speedDivider) * m_modeMultiplier;
 
     // NOTE: We are squaring the input to improve driver response
-    m_Drivetrain.tankDrive(leftInput, rightInput, true);
+    m_Drivetrain.tankDrive(m_leftSpeed, m_rightSpeed, true);
   }
 
   public void setArcadeSpeeds(double speed, double rotation)
   {
     m_leftSpeed = (speed / m_speedDivider) * m_modeMultiplier;
-    m_rightSpeed = rotation * m_modeMultiplier; // NOTE: Deliberately did not slow down in low gear.
+    m_rightSpeed = rotation; // NOTE: Deliberately did not slow down in low gear.
 
     // NOTE: We are squaring the input to improve driver response
-    m_Drivetrain.arcadeDrive(speed, rotation, true);
+    m_Drivetrain.arcadeDrive(m_leftSpeed, m_rightSpeed, true);
   }
   
   // Runs robot into slower mode for a higher precision driving.
