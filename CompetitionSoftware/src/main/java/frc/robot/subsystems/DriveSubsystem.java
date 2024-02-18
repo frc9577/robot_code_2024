@@ -28,6 +28,7 @@ public class DriveSubsystem extends SubsystemBase
   private double m_leftSpeed  = 0.0;
   private double m_rightSpeed = 0.0;
   private double m_speedDivider = 1.0;
+  private double m_modeMultiplier = 1.0;
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem()
@@ -65,8 +66,8 @@ public class DriveSubsystem extends SubsystemBase
 
   public void setTankSpeeds(double leftInput, double rightInput)
   {
-    m_leftSpeed = leftInput / m_speedDivider;
-    m_rightSpeed = rightInput / m_speedDivider;
+    m_leftSpeed = (leftInput / m_speedDivider) * m_modeMultiplier;
+    m_rightSpeed = (rightInput / m_speedDivider) * m_modeMultiplier;
 
     // NOTE: We are squaring the input to improve driver response
     m_Drivetrain.tankDrive(leftInput, rightInput, true);
@@ -74,8 +75,8 @@ public class DriveSubsystem extends SubsystemBase
 
   public void setArcadeSpeeds(double speed, double rotation)
   {
-    m_leftSpeed = speed / m_speedDivider;
-    m_rightSpeed = rotation; // NOTE: Deliberately did not slow down in low gear.
+    m_leftSpeed = (speed / m_speedDivider) * m_modeMultiplier;
+    m_rightSpeed = rotation * m_modeMultiplier; // NOTE: Deliberately did not slow down in low gear.
 
     // NOTE: We are squaring the input to improve driver response
     m_Drivetrain.arcadeDrive(speed, rotation, true);
@@ -86,6 +87,13 @@ public class DriveSubsystem extends SubsystemBase
   {
     m_speedDivider = lowGear ? DriverConstants.kLowGearDivider : 1.0;
     SmartDashboard.putBoolean("Low Gear", lowGear);
+  }
+
+  // Changes controls to normal or reverse mode's
+  public void setReverseMode(boolean reverseMode)
+  {
+    m_modeMultiplier = reverseMode ? -1.0 : 1.0;
+    SmartDashboard.putBoolean("Reverse Mode", reverseMode);
   }
 
   public double getSpeed(boolean bLeft)

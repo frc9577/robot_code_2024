@@ -10,6 +10,7 @@ import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.NoteHandlingSpeedCommand;
 import frc.robot.commands.RotateCommand;
 import frc.robot.commands.SetGearCommand;
+import frc.robot.commands.SetModeCommand;
 //import frc.robot.commands.MotorConstSpeedCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GooseRotationSubsystem;
@@ -52,6 +53,9 @@ public class RobotContainer {
   // Driver Buttons
   public final JoystickButton m_lowGearButton =
     new JoystickButton(m_driverJoystickLeft, DriverConstants.kLowGear);
+
+  public final JoystickButton m_forwardModeButton = 
+    new JoystickButton(m_driverJoystickLeft, DriverConstants.kForwardMode);
   public final JoystickButton m_reverseModeButton = 
     new JoystickButton(m_driverJoystickLeft, DriverConstants.kReverseMode);
 
@@ -129,6 +133,9 @@ public class RobotContainer {
 
     m_lowGearButton.onTrue(new SetGearCommand(m_driveSubsystem, true));
     m_lowGearButton.onFalse(new SetGearCommand(m_driveSubsystem, false));
+
+    m_forwardModeButton.onTrue(new SetModeCommand(m_driveSubsystem, false));
+    m_reverseModeButton.onTrue(new SetModeCommand(m_driveSubsystem, true));
 
     // Climb Buttons
     // m_climbUpButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.LIFTED));
