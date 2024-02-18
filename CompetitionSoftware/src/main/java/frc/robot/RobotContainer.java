@@ -9,6 +9,7 @@ import frc.robot.commands.AutonomousPassLine;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.NoteHandlingSpeedCommand;
 import frc.robot.commands.RotateCommand;
+import frc.robot.commands.SetGearCommand;
 //import frc.robot.commands.MotorConstSpeedCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GooseRotationSubsystem;
@@ -47,6 +48,12 @@ public class RobotContainer {
   private final XboxController m_operatorController = new XboxController(OperatorConstants.kOperatorController);
   private final Joystick m_driverJoystickLeft = new Joystick(DriverConstants.kLeftDriveJoystick);
   private final Joystick m_driverJoystickRight = new Joystick(DriverConstants.kRightDriveJoystick);
+
+  // Driver Buttons
+  public final JoystickButton m_lowGearButton =
+    new JoystickButton(m_driverJoystickLeft, DriverConstants.kLowGear);
+  public final JoystickButton m_reverseModeButton = 
+    new JoystickButton(m_driverJoystickLeft, DriverConstants.kReverseMode);
 
   // Pnuematics Climb Buttons
   private final JoystickButton m_climbUpButton =
@@ -119,6 +126,9 @@ public class RobotContainer {
     // Drive Controllers. We set arcade drive as the default here but may change this
     // during teleopInit depending upon the value of a dashboard chooser.
     m_driveSubsystem.initDefaultCommand(m_driverJoystickLeft, m_driverJoystickRight, true);
+
+    m_lowGearButton.onTrue(new SetGearCommand(m_driveSubsystem, true));
+    m_lowGearButton.onFalse(new SetGearCommand(m_driveSubsystem, false));
 
     // Climb Buttons
     // m_climbUpButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.LIFTED));

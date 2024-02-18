@@ -10,6 +10,7 @@ import frc.robot.commands.ArcadeDriveCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 
 import com.ctre.phoenix6.controls.Follower;
@@ -26,6 +27,7 @@ public class DriveSubsystem extends SubsystemBase
   private DifferentialDrive m_Drivetrain;
   private double m_leftSpeed  = 0.0;
   private double m_rightSpeed = 0.0;
+  private double m_speedDivider = 1.0;
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem()
@@ -63,8 +65,8 @@ public class DriveSubsystem extends SubsystemBase
 
   public void setTankSpeeds(double leftInput, double rightInput)
   {
-    m_leftSpeed = leftInput;
-    m_rightSpeed = rightInput;
+    m_leftSpeed = leftInput / m_speedDivider;
+    m_rightSpeed = rightInput / m_speedDivider;
 
     // NOTE: We are squaring the input to improve driver response
     m_Drivetrain.tankDrive(leftInput, rightInput, true);
@@ -72,11 +74,18 @@ public class DriveSubsystem extends SubsystemBase
 
   public void setArcadeSpeeds(double speed, double rotation)
   {
-    m_leftSpeed = speed;
-    m_rightSpeed = rotation;
+    m_leftSpeed = speed / m_speedDivider;
+    m_rightSpeed = rotation; // NOTE: Deliberately did not slow down in low gear.
 
     // NOTE: We are squaring the input to improve driver response
     m_Drivetrain.arcadeDrive(speed, rotation, true);
+  }
+  
+  // Runs robot into slower mode for a higher precision driving.
+  public void setLowGear(boolean lowGear)
+  {
+    m_speedDivider = lowGear ? DriverConstants.kLowGearDivider : 1.0;
+    SmartDashboard.putBoolean("Low Gear", lowGear);
   }
 
   public double getSpeed(boolean bLeft)
