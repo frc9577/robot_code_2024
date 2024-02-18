@@ -9,6 +9,7 @@ import frc.robot.commands.AutonomousPassLine;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.NoteHandlingSpeedCommand;
 import frc.robot.commands.RotateCommand;
+import frc.robot.commands.SetDriveStraightCommand;
 import frc.robot.commands.SetGearCommand;
 import frc.robot.commands.SetModeCommand;
 //import frc.robot.commands.MotorConstSpeedCommand;
@@ -58,6 +59,9 @@ public class RobotContainer {
     new JoystickButton(m_driverJoystickLeft, DriverConstants.kForwardMode);
   public final JoystickButton m_reverseModeButton = 
     new JoystickButton(m_driverJoystickLeft, DriverConstants.kReverseMode);
+
+  public final JoystickButton m_driveStraightButton = 
+    new JoystickButton(m_driverJoystickRight, DriverConstants.kDriveStraight);
 
   // Pnuematics Climb Buttons
   private final JoystickButton m_climbUpButton =
@@ -136,6 +140,9 @@ public class RobotContainer {
 
     m_forwardModeButton.onTrue(new SetModeCommand(m_driveSubsystem, false));
     m_reverseModeButton.onTrue(new SetModeCommand(m_driveSubsystem, true));
+
+    m_driveStraightButton.onTrue(new SetDriveStraightCommand(m_driveSubsystem, true));
+    m_driveStraightButton.onFalse(new SetDriveStraightCommand(m_driveSubsystem, false));
 
     // Climb Buttons
     // m_climbUpButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.LIFTED));

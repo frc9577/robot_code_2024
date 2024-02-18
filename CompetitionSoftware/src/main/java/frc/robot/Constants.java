@@ -41,9 +41,13 @@ public final class Constants {
     public static final double kTurnDivider = 2.0;
     public static final double kLowGearDivider = 2.0;
 
+    // Left Joystick
     public static final int kLowGear = 1; // Joystick Trigger
     public static final int kReverseMode = 9; // Joystick button 9
     public static final int kForwardMode = 7; // Joystick button 7
+    
+    // Right Joystick
+    public static final int kDriveStraight = 1; // Joystick Trigger
   }
 
   public static class OperatorConstants {

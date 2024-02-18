@@ -29,6 +29,7 @@ public class DriveSubsystem extends SubsystemBase
   private double m_rightSpeed = 0.0;
   private double m_speedDivider = 1.0;
   private double m_modeMultiplier = 1.0;
+  private boolean m_driveStraight = false;
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem()
@@ -64,10 +65,12 @@ public class DriveSubsystem extends SubsystemBase
     }
   }
 
+  // Sets left and right motors to set speeds to support tank drive models.
+  // rightInput is ignored when straight mode is enabled.
   public void setTankSpeeds(double leftInput, double rightInput)
   {
     m_leftSpeed = (leftInput / m_speedDivider) * m_modeMultiplier;
-    m_rightSpeed = (rightInput / m_speedDivider) * m_modeMultiplier;
+    m_rightSpeed = m_driveStraight ? m_leftSpeed : (rightInput / m_speedDivider) * m_modeMultiplier;
 
     // NOTE: We are squaring the input to improve driver response
     m_Drivetrain.tankDrive(leftInput, rightInput, true);
@@ -94,6 +97,12 @@ public class DriveSubsystem extends SubsystemBase
   {
     m_modeMultiplier = reverseMode ? -1.0 : 1.0;
     SmartDashboard.putBoolean("Reverse Mode", reverseMode);
+  }
+
+  public void setStraightDriveMode(boolean straightDriveMode)
+  {
+    m_driveStraight = straightDriveMode;
+    SmartDashboard.putBoolean("Drive Straight", straightDriveMode);
   }
 
   public double getSpeed(boolean bLeft)
