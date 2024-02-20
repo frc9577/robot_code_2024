@@ -19,7 +19,8 @@ public final class Constants {
 
     public static final int periodicTicksPerSecond = 50;
     public static final int pnuematicReportingFreq = 1;
-    public static final int imuReportingFreq = 1;
+    public static final int imuReportingFreq       = 1;
+    public static final int gooseReportingFreq     = 1;
   }
 
   public static class AutoConstants {
@@ -85,8 +86,10 @@ public final class Constants {
     public static final int kNoteSensorChannel = 0;
     public static final boolean kNoteSensorNormallyOpen = true;
 
-    public static final double kIntakeSpeed = 0.25;
-    public static final double kOutputSpeed = 0.25;
+    public static final double kRollerSpeed = -0.6;
+
+    public static final int kIntakeCurrentLimit = 40;
+    public static final int kOutputCurrentLimit = 20;
   }
 
   public static class GooseRotationConstants {
@@ -106,6 +109,6 @@ public final class Constants {
     // This defines the gear ratio between the motor and output shafts. Divide
     // the motor rotation count by this number to determine the output shaft
     // rotation count.
-    public static final int kOutputShaftRatio         = 100;
+    public static final int kOutputShaftRatio         = 75;
   }
 }

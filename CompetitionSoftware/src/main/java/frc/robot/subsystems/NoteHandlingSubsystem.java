@@ -25,7 +25,11 @@ public class NoteHandlingSubsystem extends SubsystemBase {
   private final DigitalInput m_noteSensor = new DigitalInput(NoteHandlingConstants.kNoteSensorChannel);
   
   /** Creates a new NoteHandlingSubsystem. */  
-  public NoteHandlingSubsystem() {}
+  public NoteHandlingSubsystem() 
+  {
+    m_intakeMotor.setSmartCurrentLimit(NoteHandlingConstants.kIntakeCurrentLimit);
+    m_outputMotor.setSmartCurrentLimit(NoteHandlingConstants.kOutputCurrentLimit);
+  }
 
   public void setIntakeSpeed(double speed)
   {

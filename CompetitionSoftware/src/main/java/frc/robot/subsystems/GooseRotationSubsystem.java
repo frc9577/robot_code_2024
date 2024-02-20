@@ -64,7 +64,7 @@ public class GooseRotationSubsystem extends PIDSubsystem {
   }
 
   @Override
-  protected double getMeasurement() {
+  public double getMeasurement() {
     double position = m_Encoder.getPosition();
     return getAngleFromMotorPosition(position);
   }

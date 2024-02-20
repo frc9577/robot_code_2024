@@ -43,8 +43,8 @@ public class RobotContainer {
   private final PneumaticHub   m_pnuematicHub   = new PneumaticHub();
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   // private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
-  // private final GooseRotationSubsystem m_rotationSubsystem    = new GooseRotationSubsystem();
-  // private final NoteHandlingSubsystem m_noteHandlingSubsystem = new NoteHandlingSubsystem();
+  private final GooseRotationSubsystem m_rotationSubsystem    = new GooseRotationSubsystem();
+  private final NoteHandlingSubsystem m_noteHandlingSubsystem = new NoteHandlingSubsystem();
 
   // Joysticks
   private final XboxController m_operatorController = new XboxController(OperatorConstants.kOperatorController);
@@ -110,6 +110,11 @@ public class RobotContainer {
       SmartDashboard.putNumber("Heading", m_driveSubsystem.getHeading());
     }
 
+    if(m_tickCount % (RobotConstants.periodicTicksPerSecond/RobotConstants.gooseReportingFreq) == 0)
+    {
+      // Report Goose ARM state.
+      SmartDashboard.putNumber("Goose Angle", m_rotationSubsystem.getMeasurement());
+    }
     m_tickCount += 1;
   }
 
@@ -152,15 +157,15 @@ public class RobotContainer {
     // m_intakeAutoButton.onTrue(new AutoNoteIntakeCommand(m_noteHandlingSubsystem, 
     //                                                    NoteHandlingConstants.kIntakeSpeed));
 
-    //m_intakeManualButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
-    //                                                         NoteHandlingConstants.kIntakeSpeed));
-    //m_intakeManualButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
+    m_intakeManualButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
+                                                            NoteHandlingConstants.kRollerSpeed, true));
+    m_intakeManualButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0, true));
     
-    //m_outputButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
-    //                                                   NoteHandlingConstants.kOutputSpeed));
-    //m_outputButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
+    m_outputButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
+                                                       NoteHandlingConstants.kRollerSpeed, false));
+    m_outputButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0, false));
 
-    //m_fullStopButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0));
+    m_fullStopButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0, false));
 
     // Goose Rotation Buttons
     //m_moveArmTopButton.onTrue(new RotateCommand(m_rotationSubsystem, 
