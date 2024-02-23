@@ -94,6 +94,9 @@ public class RobotContainer {
 
     // Configure the trigger bindings
     configureBindings();
+
+    m_tickCount = 0;
+    reportStatus();
   }
 
   public void reportStatus() {
@@ -114,6 +117,9 @@ public class RobotContainer {
     {
       // Report Goose ARM state.
       SmartDashboard.putNumber("Goose Angle", m_rotationSubsystem.getMeasurement());
+      SmartDashboard.putNumber("Goose Raw Measurement", m_rotationSubsystem.getRawMeasurement());
+      SmartDashboard.putNumber("Goose Set Point", m_rotationSubsystem.getSetPointAngle());
+      SmartDashboard.putNumber("Goose Speed", m_rotationSubsystem.getSpeed());
     }
     m_tickCount += 1;
   }
@@ -172,6 +178,8 @@ public class RobotContainer {
     //                                            GooseRotationConstants.kTopAngle));
     //m_moveArmBottomButton.onTrue(new RotateCommand(m_rotationSubsystem, 
     //                                               GooseRotationConstants.kBottomAngle));
+
+    m_rotationSubsystem.initDefaultCommand(m_operatorController);
   }
 
   /**

@@ -110,5 +110,7 @@ public final class Constants {
     // the motor rotation count by this number to determine the output shaft
     // rotation count.
     public static final int kOutputShaftRatio         = 75;
+
+    public static final int kMotorCurrentLimit        = 40;
   }
 }

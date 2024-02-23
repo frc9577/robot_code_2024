@@ -11,11 +11,17 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants.GooseRotationConstants;
+import frc.robot.commands.ArcadeDriveCommand;
+import frc.robot.commands.ManualRotateCommand;
+import frc.robot.commands.TankDriveCommand;
 
 public class GooseRotationSubsystem extends PIDSubsystem {
   private double m_angleSet = 0.0;
+  private double m_motorSpeed = 0.0;
   private final CANSparkMax m_rotationMotor = new CANSparkMax(GooseRotationConstants.kRotateMotorCANID, 
                                                               MotorType.kBrushless);
   private final RelativeEncoder m_Encoder = m_rotationMotor.getEncoder();
@@ -27,6 +33,7 @@ public class GooseRotationSubsystem extends PIDSubsystem {
                             GooseRotationConstants.kI, 
                             GooseRotationConstants.kD));
     
+    m_rotationMotor.setSmartCurrentLimit(GooseRotationConstants.kMotorCurrentLimit);
     m_Encoder.setPosition(getMotorPositionFromAngle(GooseRotationConstants.kStartingAngle));
   }
 
@@ -58,6 +65,21 @@ public class GooseRotationSubsystem extends PIDSubsystem {
     return m_angleSet;
   }
 
+  public void setSpeed(double output) {
+    m_motorSpeed = output;
+    m_rotationMotor.set(m_motorSpeed);
+  }
+
+  public double getSpeed()
+  {
+    return m_motorSpeed;
+  }
+
+  public double getRawMeasurement()
+  {
+    return m_Encoder.getPosition();
+  }
+
   @Override
   protected void useOutput(double output, double setpoint) {
     m_rotationMotor.set(output);
@@ -67,5 +89,10 @@ public class GooseRotationSubsystem extends PIDSubsystem {
   public double getMeasurement() {
     double position = m_Encoder.getPosition();
     return getAngleFromMotorPosition(position);
+  }
+
+  public void initDefaultCommand(XboxController speedJoystick)
+  {
+    setDefaultCommand(new ManualRotateCommand(this, speedJoystick));
   }
 }
