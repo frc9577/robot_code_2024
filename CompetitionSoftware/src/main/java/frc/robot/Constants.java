@@ -93,9 +93,15 @@ public final class Constants {
   public static class GooseRotationConstants {
     public static final int kRotateMotorCANID = 40;
 
-    public static final double kP = 0.005;
-    public static final double kI = 0.0;
-    public static final double kD = 0.0;
+    // SparkMax PID coefficients for the rotation controller.
+    // These are currently taken from the REV example at https://github.com/REVrobotics/SPARK-MAX-Examples/blob/master/Java/Position%20Closed%20Loop%20Control/src/main/java/frc/robot/Robot.java
+    public static final double kP         = 0.1;
+    public static final double kI         = 1e-4;
+    public static final double kD         = 1.0;
+    public static final double kIZone     = 0.0;
+    public static final double kFF        = 0.0;
+    public static final double kMinOutput = -1.0;
+    public static final double kMaxOutput = 1.0;
 
     // Starting in a non-end positon, there will be a switch at one or both of the end positions.
     // When the switch(s) are hit the software will reset to the known position.

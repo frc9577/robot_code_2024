@@ -2,8 +2,6 @@
 
 package frc.robot.commands;
 
-
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.GooseRotationSubsystem;
@@ -28,7 +26,7 @@ public class ManualRotateCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setSpeed(0.0);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -67,7 +65,6 @@ public class ManualRotateCommand extends Command {
   @Override
   public void end(boolean interrupted) 
   {
-    m_subsystem.setSpeed(0.0);
   }
 
   // Returns true when the command should end.
