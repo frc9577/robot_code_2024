@@ -4,15 +4,12 @@
 
 package frc.robot;
 import frc.robot.Constants.*;
-import frc.robot.commands.AutoNoteIntakeCommand;
 import frc.robot.commands.AutonomousPassLine;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.NoteHandlingSpeedCommand;
-import frc.robot.commands.RotateCommand;
 import frc.robot.commands.SetDriveStraightCommand;
 import frc.robot.commands.SetGearCommand;
 import frc.robot.commands.SetModeCommand;
-//import frc.robot.commands.MotorConstSpeedCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GooseRotationSubsystem;
 import frc.robot.subsystems.NoteHandlingSubsystem;
@@ -118,10 +115,9 @@ public class RobotContainer {
     if(m_tickCount % (RobotConstants.periodicTicksPerSecond/RobotConstants.gooseReportingFreq) == 0)
     {
       // Report Goose ARM state.
-      //SmartDashboard.putNumber("Goose Angle", m_rotationSubsystem.getMeasurement());
-      //SmartDashboard.putNumber("Goose Raw Measurement", m_rotationSubsystem.getRawMeasurement());
-      //SmartDashboard.putNumber("Goose Set Point", m_rotationSubsystem.getSetPointAngle());
-      //SmartDashboard.putNumber("Goose Speed", m_rotationSubsystem.getSpeed());
+      SmartDashboard.putNumber("Goose Raw Measurement", m_rotationSubsystem.getRawMeasurement());
+      SmartDashboard.putNumber("Goose Set Point", m_rotationSubsystem.getSetPointAngle());
+      SmartDashboard.putNumber("Goose Speed", m_rotationSubsystem.getSpeed());
     }
     m_tickCount += 1;
   }
