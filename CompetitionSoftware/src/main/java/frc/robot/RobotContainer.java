@@ -42,7 +42,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final PneumaticHub   m_pnuematicHub   = new PneumaticHub();
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  // private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
+  private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
   private final GooseRotationSubsystem m_rotationSubsystem    = new GooseRotationSubsystem();
   private final NoteHandlingSubsystem m_noteHandlingSubsystem = new NoteHandlingSubsystem();
 
@@ -156,8 +156,8 @@ public class RobotContainer {
     m_driveStraightButton.onFalse(new SetDriveStraightCommand(m_driveSubsystem, false));
 
     // Climb Buttons
-    // m_climbUpButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.LIFTED));
-    // m_climbDownButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.GROUNDED));
+    m_climbUpButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.LIFTED));
+    m_climbDownButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.GROUNDED));
 
     // Note handling Buttons
     // m_intakeAutoButton.onTrue(new AutoNoteIntakeCommand(m_noteHandlingSubsystem, 

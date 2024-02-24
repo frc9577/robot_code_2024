@@ -64,8 +64,6 @@ public final class Constants {
 
     public static final int kMoveArmTop     = 8; // Start Button
     public static final int kMoveArmBottom  = 7; // Back Button
-
-    public static final int kMoveArmAngle   = 5; // Right joystick Y
   }
 
   public static class ClimbConstants {
