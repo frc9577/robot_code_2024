@@ -43,7 +43,7 @@ public class RobotContainer {
   private final PneumaticHub   m_pnuematicHub   = new PneumaticHub();
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
-  private final GooseRotationSubsystem m_rotationSubsystem    = new GooseRotationSubsystem();
+  //private final GooseRotationSubsystem m_rotationSubsystem    = new GooseRotationSubsystem();
   private final NoteHandlingSubsystem m_noteHandlingSubsystem = new NoteHandlingSubsystem();
 
   // Joysticks
@@ -78,6 +78,8 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, OperatorConstants.kIntakeManual);
   private final JoystickButton m_fullStopButton = 
     new JoystickButton(m_operatorController, OperatorConstants.kFullStop);
+  private final JoystickButton m_SpitOutButton = 
+    new JoystickButton(m_operatorController, OperatorConstants.kSpitOut);
 
   // Goose Rotation Buttons
   private final JoystickButton m_moveArmTopButton = 
@@ -116,10 +118,10 @@ public class RobotContainer {
     if(m_tickCount % (RobotConstants.periodicTicksPerSecond/RobotConstants.gooseReportingFreq) == 0)
     {
       // Report Goose ARM state.
-      SmartDashboard.putNumber("Goose Angle", m_rotationSubsystem.getMeasurement());
-      SmartDashboard.putNumber("Goose Raw Measurement", m_rotationSubsystem.getRawMeasurement());
-      SmartDashboard.putNumber("Goose Set Point", m_rotationSubsystem.getSetPointAngle());
-      SmartDashboard.putNumber("Goose Speed", m_rotationSubsystem.getSpeed());
+      //SmartDashboard.putNumber("Goose Angle", m_rotationSubsystem.getMeasurement());
+      //SmartDashboard.putNumber("Goose Raw Measurement", m_rotationSubsystem.getRawMeasurement());
+      //SmartDashboard.putNumber("Goose Set Point", m_rotationSubsystem.getSetPointAngle());
+      //SmartDashboard.putNumber("Goose Speed", m_rotationSubsystem.getSpeed());
     }
     m_tickCount += 1;
   }
@@ -167,6 +169,13 @@ public class RobotContainer {
                                                             NoteHandlingConstants.kRollerSpeed, true));
     m_intakeManualButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0, true));
     
+    m_SpitOutButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
+                                                        -NoteHandlingConstants.kRollerSpeed, 
+                                                        false));
+    m_SpitOutButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 0.0, 
+                                                        false));
+                                                      
+
     m_outputButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
                                                        NoteHandlingConstants.kRollerSpeed, false));
     m_outputButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0, false));
@@ -179,7 +188,7 @@ public class RobotContainer {
     //m_moveArmBottomButton.onTrue(new RotateCommand(m_rotationSubsystem, 
     //                                               GooseRotationConstants.kBottomAngle));
 
-    m_rotationSubsystem.initDefaultCommand(m_operatorController);
+    //m_rotationSubsystem.initDefaultCommand(m_operatorController);
   }
 
   /**

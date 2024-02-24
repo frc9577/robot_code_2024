@@ -24,7 +24,7 @@ public final class Constants {
   }
 
   public static class AutoConstants {
-    public static final long kPassLineDuration_mS = 4000;
+    public static final long kPassLineDuration_mS = 2000;
     public static final double kPassLineSpeed = 0.40;
   }
 
@@ -64,6 +64,8 @@ public final class Constants {
 
     public static final int kMoveArmTop     = 8; // Start Button
     public static final int kMoveArmBottom  = 7; // Back Button
+
+    public static final int kSpitOut = 10;  // right joystick down
   }
 
   public static class ClimbConstants {
