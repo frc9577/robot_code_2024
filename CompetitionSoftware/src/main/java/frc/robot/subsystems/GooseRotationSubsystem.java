@@ -9,6 +9,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAlternateEncoder;
+import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -20,7 +22,7 @@ public class GooseRotationSubsystem extends SubsystemBase {
   private double m_angleSet = 0.0;
   private final CANSparkMax m_rotationMotor = new CANSparkMax(GooseRotationConstants.kRotateMotorCANID, 
                                                               MotorType.kBrushless);
-  private RelativeEncoder m_Encoder;
+  private SparkAbsoluteEncoder m_Encoder;
   private SparkPIDController m_pidController;
 
   public double m_kP, m_kI, m_kD, m_kIz, m_kFF, m_kMaxOutput, m_kMinOutput;
@@ -28,15 +30,17 @@ public class GooseRotationSubsystem extends SubsystemBase {
   /** Creates a new GooseRotationSubsystem. */
   public GooseRotationSubsystem() 
   {
-    
+    m_rotationMotor.restoreFactoryDefaults();
+    m_rotationMotor.setInverted(true);
     m_rotationMotor.setSmartCurrentLimit(GooseRotationConstants.kMotorCurrentLimit);
     
-    m_Encoder = m_rotationMotor.getEncoder();
+    m_Encoder = m_rotationMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
     // TODO: We may need to set the current position here or, perhaps, just read the encoder
     // so that we know where our reference is.
 
     m_pidController = m_rotationMotor.getPIDController();
+    m_pidController.setFeedbackDevice(m_Encoder);
 
     // Set default PID coefficients.
     m_kP = GooseRotationConstants.kP;
@@ -127,7 +131,7 @@ public class GooseRotationSubsystem extends SubsystemBase {
     double ff = SmartDashboard.getNumber("Feed Forward", 0);
     double max = SmartDashboard.getNumber("Max Output", 0);
     double min = SmartDashboard.getNumber("Min Output", 0);
-    double setangle = SmartDashboard.getNumber("Set Angle", 0);
+    double setangle = SmartDashboard.getNumber("Goose Set Point", 0);
 
     // if PID coefficients on SmartDashboard have changed, write new values to controller
     if((p != m_kP)) { m_pidController.setP(p); m_kP = p; }

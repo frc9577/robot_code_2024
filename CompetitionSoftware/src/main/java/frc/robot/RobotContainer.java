@@ -40,7 +40,7 @@ public class RobotContainer {
   private final PneumaticHub   m_pnuematicHub   = new PneumaticHub();
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
-  //private final GooseRotationSubsystem m_rotationSubsystem    = new GooseRotationSubsystem();
+  private final GooseRotationSubsystem m_rotationSubsystem    = new GooseRotationSubsystem();
   private final NoteHandlingSubsystem m_noteHandlingSubsystem = new NoteHandlingSubsystem();
 
   // Joysticks
@@ -116,7 +116,7 @@ public class RobotContainer {
     {
       // Report Goose ARM state.
       SmartDashboard.putNumber("Goose Raw Measurement", m_rotationSubsystem.getRawMeasurement());
-      SmartDashboard.putNumber("Goose Set Point", m_rotationSubsystem.getSetPointAngle());
+      // SmartDashboard.putNumber("Goose Set Point", m_rotationSubsystem.getSetPointAngle());
       SmartDashboard.putNumber("Goose Speed", m_rotationSubsystem.getSpeed());
     }
     m_tickCount += 1;
