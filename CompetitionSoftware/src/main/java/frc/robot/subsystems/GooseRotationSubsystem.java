@@ -11,13 +11,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants.GooseRotationConstants;
-import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.ManualRotateCommand;
-import frc.robot.commands.TankDriveCommand;
 
 public class GooseRotationSubsystem extends PIDSubsystem {
   private double m_angleSet = 0.0;
@@ -35,6 +32,8 @@ public class GooseRotationSubsystem extends PIDSubsystem {
     
     m_rotationMotor.setSmartCurrentLimit(GooseRotationConstants.kMotorCurrentLimit);
     m_Encoder.setPosition(getMotorPositionFromAngle(GooseRotationConstants.kStartingAngle));
+
+    this.enable();
   }
 
   private double getAngleFromMotorPosition(double motorShaftRotations)

@@ -24,8 +24,8 @@ public final class Constants {
   }
 
   public static class AutoConstants {
-    public static final long kPassLineDuration_mS = 3000;
-    public static final double kPassLineSpeed = 0.25;
+    public static final long kPassLineDuration_mS = 4000;
+    public static final double kPassLineSpeed = 0.40;
   }
 
   public static class DrivetrainConstants {
@@ -93,7 +93,7 @@ public final class Constants {
   public static class GooseRotationConstants {
     public static final int kRotateMotorCANID = 40;
 
-    public static final double kP = 0.0005;
+    public static final double kP = 0.005;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 

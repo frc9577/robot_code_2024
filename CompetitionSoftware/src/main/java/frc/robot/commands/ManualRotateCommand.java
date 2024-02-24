@@ -34,7 +34,33 @@ public class ManualRotateCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setSpeed(-m_joystick.getLeftY());
+    double setPointAngle = m_subsystem.getSetPointAngle();
+    double joystickValue = -m_joystick.getLeftY();
+    
+    if ((joystickValue <= 0.25) && (joystickValue >= -0.25))
+    { 
+      return; 
+    }
+
+    if (joystickValue > 0.25)
+    {
+      setPointAngle += 1.0;
+    }
+    else if (joystickValue < -0.25)
+    {
+      setPointAngle -= 1.0;
+    }
+
+    if(setPointAngle > 140)
+    {
+      setPointAngle = 140;
+    }
+    else if (setPointAngle < -10)
+    {
+      setPointAngle = -10;
+    }
+
+    m_subsystem.setAngle(setPointAngle);
   }
 
   // Called once the command ends or is interrupted.
