@@ -116,7 +116,7 @@ public class RobotContainer {
     {
       // Report Goose ARM state.
       SmartDashboard.putNumber("Goose Raw Measurement", m_rotationSubsystem.getRawMeasurement());
-      // SmartDashboard.putNumber("Goose Set Point", m_rotationSubsystem.getSetPointAngle());
+      SmartDashboard.putNumber("Goose Set Point", m_rotationSubsystem.getSetPointAngle());
       SmartDashboard.putNumber("Goose Speed", m_rotationSubsystem.getSpeed());
     }
     m_tickCount += 1;

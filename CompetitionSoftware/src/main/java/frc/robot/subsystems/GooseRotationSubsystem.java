@@ -12,6 +12,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -92,7 +93,8 @@ public class GooseRotationSubsystem extends SubsystemBase {
   {
     m_angleSet = angleDegrees;
     double setpoint = getMotorPositionFromAngle(angleDegrees);
-    m_pidController.setReference(setpoint, CANSparkMax.ControlType.kPosition);
+    SmartDashboard.putNumber("Set Rotations", setpoint);
+    m_pidController.setReference(setpoint, CANSparkBase.ControlType.kPosition);
   }
 
   public double getSetPointAngle()
@@ -150,7 +152,7 @@ public class GooseRotationSubsystem extends SubsystemBase {
      * 
      */
     m_angleSet = setangle;
-    m_pidController.setReference(setangle, CANSparkMax.ControlType.kPosition);
+    setAngle(m_angleSet);
   }
 
 }
