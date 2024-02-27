@@ -57,12 +57,13 @@ public final class Constants {
     public static final int kClimbUp        = 7; // Back Button
     public static final int kClimbDown      = 8; // Start Button
 
-    public static final int kIntakeAuto     = 3; // Button X
+    //public static final int kIntakeAuto     = 3; // Button X
     public static final int kOutput         = 6; // Right Bumper
     public static final int kIntakeManual   = 5; // Left Bumper
     public static final int kFullStop       = 2; // Button B
 
     public static final int kMoveArmTop     = 4; // Button Y
+    public static final int kMoveArmMiddle  = 3; // Button X
     public static final int kMoveArmBottom  = 1; // Button A
 
     public static final int kSpitOut = 10;  // right joystick down
@@ -76,11 +77,11 @@ public final class Constants {
     public static final int kPneumaticsHubCANid = 1;
 
     // Temp Values, Needs to be changed when solunoid is set up onto the robot
-    public static final int kExtendChannelL = 1;
-    public static final int kRetractChannelL = 2;
+    public static final int kExtendChannelL = 8;
+    public static final int kRetractChannelL = 7;
     
-    public static final int kExtendChannelR = 3;
-    public static final int kRetractChannelR = 4;
+    public static final int kExtendChannelR = 15;
+    public static final int kRetractChannelR = 0;
   }
 
   public static class NoteHandlingConstants {
@@ -123,6 +124,7 @@ public final class Constants {
     public static final double kTopAngle              = 110.0; 
 
     public static final double kScoreAngle            = 100.0;
+    public static final double kMiddleAngle           = 20.0;
     public static final double kIntakeAngle           = 3.0;
 
     // This defines the gear ratio between the motor and output shafts. Divide
