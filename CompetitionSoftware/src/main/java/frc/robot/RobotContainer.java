@@ -7,6 +7,7 @@ import frc.robot.Constants.*;
 import frc.robot.commands.AutonomousPassLine;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.NoteHandlingSpeedCommand;
+import frc.robot.commands.RotateCommand;
 import frc.robot.commands.SetDriveStraightCommand;
 import frc.robot.commands.SetGearCommand;
 import frc.robot.commands.SetModeCommand;
@@ -67,8 +68,8 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, OperatorConstants.kClimbDown);
 
   // Note Handling Buttons
-  private final JoystickButton m_intakeAutoButton = 
-    new JoystickButton(m_operatorController, OperatorConstants.kIntakeAuto);
+  //private final JoystickButton m_intakeAutoButton = 
+    //new JoystickButton(m_operatorController, OperatorConstants.kIntakeAuto);
   private final JoystickButton m_outputButton = 
     new JoystickButton(m_operatorController, OperatorConstants.kOutput);
   private final JoystickButton m_intakeManualButton = 
@@ -79,6 +80,7 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, OperatorConstants.kSpitOut);
 
   // Goose Rotation Buttons
+  // TO DO: Fix angle calculations!!
   private final JoystickButton m_moveArmTopButton = 
     new JoystickButton(m_operatorController, OperatorConstants.kMoveArmTop);
   private final JoystickButton m_moveArmBottomButton = 
@@ -115,7 +117,7 @@ public class RobotContainer {
     if(m_tickCount % (RobotConstants.periodicTicksPerSecond/RobotConstants.gooseReportingFreq) == 0)
     {
       // Report Goose ARM state.
-      SmartDashboard.putNumber("Goose Raw Measurement", m_rotationSubsystem.getRawMeasurement());
+      SmartDashboard.putNumber("Goose Raw Measurement", m_rotationSubsystem.getEncoderValue());
       SmartDashboard.putNumber("Goose Set Point", m_rotationSubsystem.getSetPointAngle());
       SmartDashboard.putNumber("Goose Speed", m_rotationSubsystem.getSpeed());
     }
@@ -179,12 +181,12 @@ public class RobotContainer {
     m_fullStopButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0, false));
 
     // Goose Rotation Buttons
-    //m_moveArmTopButton.onTrue(new RotateCommand(m_rotationSubsystem, 
-    //                                            GooseRotationConstants.kTopAngle));
-    //m_moveArmBottomButton.onTrue(new RotateCommand(m_rotationSubsystem, 
-    //                                               GooseRotationConstants.kBottomAngle));
+    m_moveArmTopButton.onTrue(new RotateCommand(m_rotationSubsystem, 
+                                                GooseRotationConstants.kScoreAngle));
+    m_moveArmBottomButton.onTrue(new RotateCommand(m_rotationSubsystem, 
+                                                   GooseRotationConstants.kIntakeAngle));
 
-    //m_rotationSubsystem.initDefaultCommand(m_operatorController);
+    m_rotationSubsystem.initDefaultCommand(m_operatorController);
   }
 
   /**

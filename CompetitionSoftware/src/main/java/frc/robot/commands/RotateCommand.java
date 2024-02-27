@@ -27,7 +27,7 @@ public class RotateCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setAngle(m_angle);
+    m_subsystem.setSetPointAngle(m_angle);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
