@@ -24,7 +24,7 @@ public final class Constants {
   }
 
   public static class AutoConstants {
-    public static final long kPassLineDuration_mS = 4000;
+    public static final long kPassLineDuration_mS = 2000;
     public static final double kPassLineSpeed = 0.40;
   }
 
@@ -64,6 +64,8 @@ public final class Constants {
 
     public static final int kMoveArmTop     = 8; // Start Button
     public static final int kMoveArmBottom  = 7; // Back Button
+
+    public static final int kSpitOut = 10;  // right joystick down
   }
 
   public static class ClimbConstants {
@@ -95,9 +97,9 @@ public final class Constants {
 
     // SparkMax PID coefficients for the rotation controller.
     // These are currently taken from the REV example at https://github.com/REVrobotics/SPARK-MAX-Examples/blob/master/Java/Position%20Closed%20Loop%20Control/src/main/java/frc/robot/Robot.java
-    public static final double kP         = 0.1;
-    public static final double kI         = 1e-4;
-    public static final double kD         = 1.0;
+    public static final double kP         = 1;
+    public static final double kI         = 0.0;
+    public static final double kD         = 0.0;
     public static final double kIZone     = 0.0;
     public static final double kFF        = 0.0;
     public static final double kMinOutput = -1.0;

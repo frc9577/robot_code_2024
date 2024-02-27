@@ -75,6 +75,8 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, OperatorConstants.kIntakeManual);
   private final JoystickButton m_fullStopButton = 
     new JoystickButton(m_operatorController, OperatorConstants.kFullStop);
+  private final JoystickButton m_SpitOutButton = 
+    new JoystickButton(m_operatorController, OperatorConstants.kSpitOut);
 
   // Goose Rotation Buttons
   private final JoystickButton m_moveArmTopButton = 
@@ -163,6 +165,13 @@ public class RobotContainer {
                                                             NoteHandlingConstants.kRollerSpeed, true));
     m_intakeManualButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0, true));
     
+    m_SpitOutButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
+                                                        -NoteHandlingConstants.kRollerSpeed, 
+                                                        false));
+    m_SpitOutButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 0.0, 
+                                                        false));
+                                                      
+
     m_outputButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
                                                        NoteHandlingConstants.kRollerSpeed, false));
     m_outputButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0, false));
@@ -175,7 +184,7 @@ public class RobotContainer {
     //m_moveArmBottomButton.onTrue(new RotateCommand(m_rotationSubsystem, 
     //                                               GooseRotationConstants.kBottomAngle));
 
-    m_rotationSubsystem.initDefaultCommand(m_operatorController);
+    //m_rotationSubsystem.initDefaultCommand(m_operatorController);
   }
 
   /**
