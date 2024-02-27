@@ -4,6 +4,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.GooseRotationSubsystem;
 
 /** An example command that uses an example subsystem. */
@@ -42,23 +43,23 @@ public class ManualRotateCommand extends Command {
 
     if (joystickValue > 0.25)
     {
-      setPointAngle += 1.0;
+      setPointAngle += OperatorConstants.kGooseAngleIncrement;
     }
     else if (joystickValue < -0.25)
     {
-      setPointAngle -= 1.0;
+      setPointAngle -= OperatorConstants.kGooseAngleIncrement;
     }
 
-    if(setPointAngle > 140)
+    if(setPointAngle > OperatorConstants.kGooseAngleMax)
     {
-      setPointAngle = 140;
+      setPointAngle = OperatorConstants.kGooseAngleMax;
     }
-    else if (setPointAngle < -10)
+    else if (setPointAngle < OperatorConstants.kGooseAngleMin)
     {
-      setPointAngle = -10;
+      setPointAngle = OperatorConstants.kGooseAngleMin;
     }
 
-    m_subsystem.setAngle(setPointAngle);
+    m_subsystem.setSetPointAngle(setPointAngle);
   }
 
   // Called once the command ends or is interrupted.

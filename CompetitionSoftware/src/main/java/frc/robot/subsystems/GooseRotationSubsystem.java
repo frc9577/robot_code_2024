@@ -8,8 +8,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase;
@@ -18,6 +16,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.GooseRotationConstants;
+import frc.robot.commands.ManualRotateCommand;
 
 public class GooseRotationSubsystem extends SubsystemBase {
   private double m_angleSet = 0.0;
@@ -26,11 +25,21 @@ public class GooseRotationSubsystem extends SubsystemBase {
   private SparkAbsoluteEncoder m_Encoder;
   private SparkPIDController m_pidController;
 
+  private double m_encoderGradient;
+  private double m_encoderIntercept;
+
   public double m_kP, m_kI, m_kD, m_kIz, m_kFF, m_kMaxOutput, m_kMinOutput;
                                                         
   /** Creates a new GooseRotationSubsystem. */
   public GooseRotationSubsystem() 
   {
+    // Working out values for Gradiant & intercept to support angle to encoder value conversion.
+    double angleDelta = GooseRotationConstants.kTopAngle-GooseRotationConstants.kBottomAngle;
+    double encoderDelta = GooseRotationConstants.kTopRawEncoderValue-GooseRotationConstants.kBottomRawEncoderValue;
+    m_encoderGradient = angleDelta/encoderDelta;
+    m_encoderIntercept = GooseRotationConstants.kTopAngle-(m_encoderGradient*GooseRotationConstants.kTopRawEncoderValue);
+
+
     m_rotationMotor.restoreFactoryDefaults();
     m_rotationMotor.setInverted(true);
     m_rotationMotor.setSmartCurrentLimit(GooseRotationConstants.kMotorCurrentLimit);
@@ -68,32 +77,33 @@ public class GooseRotationSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Feed Forward", m_kFF);
     SmartDashboard.putNumber("Max Output", m_kMaxOutput);
     SmartDashboard.putNumber("Min Output", m_kMinOutput);
-    SmartDashboard.putNumber("Set Rotations", 0);
+    SmartDashboard.putNumber("Set Degress", 0);
+    SmartDashboard.putNumber("Set Reference", getMotorPositionFromAngle(m_angleSet));
   }
 
   // Given a position read from the encoder, return the equivalent arm
   // angle.
   private double getAngleFromMotorPosition(double encoderReading)
   {
-    // TODO: Perform scaling and translation as necessary.
-    // For now, just return the provided value.
-    return encoderReading;
+    double angle = (m_encoderGradient * encoderReading) + m_encoderIntercept;
+    return angle;
   }
 
   // Given a desired arm angle in degrees, return the equivalent setpoint
   // value to pass to the PID controller.
   private double getMotorPositionFromAngle(double angle)
   {
-    // TODO: We will likely have to scale and offset the result. For now, we just pass back
-    // the same value.
-    return angle;
+    // y = mx+b (c is for the British but we are in the land of the free *eagle sound here*)
+    double encoder = (angle - m_encoderIntercept) / m_encoderGradient;
+    return encoder;
   }
 
-  public void setAngle(double angleDegrees)
+  public void setSetPointAngle(double angleDegrees)
   {
     m_angleSet = angleDegrees;
     double setpoint = getMotorPositionFromAngle(angleDegrees);
-    SmartDashboard.putNumber("Set Rotations", setpoint);
+    SmartDashboard.putNumber("Set Degress", m_angleSet);
+    SmartDashboard.putNumber("Set Reference", setpoint);
     m_pidController.setReference(setpoint, CANSparkBase.ControlType.kPosition);
   }
 
@@ -102,22 +112,24 @@ public class GooseRotationSubsystem extends SubsystemBase {
     return m_angleSet;
   }
 
+  public double getAngle()
+  {
+    return getAngleFromMotorPosition(m_Encoder.getPosition());
+  }
+
   public double getSpeed()
   {
     return m_rotationMotor.get();
   }
 
-  public double getRawMeasurement()
+  public double getEncoderValue()
   {
     return m_Encoder.getPosition();
   }
 
   public void initDefaultCommand(XboxController speedJoystick)
   {
-    // TODO: Reinstate this one tuning is done and we're not using the 
-    // Shuffleboard widgets to set coefficients.
-    //
-    // setDefaultCommand(new ManualRotateCommand(this, speedJoystick));
+    setDefaultCommand(new ManualRotateCommand(this, speedJoystick));
   }
 
   @Override
@@ -133,7 +145,6 @@ public class GooseRotationSubsystem extends SubsystemBase {
     double ff = SmartDashboard.getNumber("Feed Forward", 0);
     double max = SmartDashboard.getNumber("Max Output", 0);
     double min = SmartDashboard.getNumber("Min Output", 0);
-    double setangle = SmartDashboard.getNumber("Goose Set Point", 0);
 
     // if PID coefficients on SmartDashboard have changed, write new values to controller
     if((p != m_kP)) { m_pidController.setP(p); m_kP = p; }
@@ -145,14 +156,6 @@ public class GooseRotationSubsystem extends SubsystemBase {
       m_pidController.setOutputRange(min, max); 
       m_kMinOutput = min; m_kMaxOutput = max; 
     }
-
-    /**
-     * PIDController objects are commanded to a set point using the 
-     * SetReference() method.
-     * 
-     */
-    m_angleSet = setangle;
-    setAngle(m_angleSet);
   }
 
 }
