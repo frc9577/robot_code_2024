@@ -3,6 +3,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.NoteHandlingConstants;
 import frc.robot.subsystems.NoteHandlingSubsystem;
 
 /** An example command that uses an example subsystem. */
@@ -30,7 +31,7 @@ public class NoteHandlingSpeedCommand extends Command {
     m_subsystem.setIntakeSpeed(m_speed);
     if (!m_isInput)
     {
-      m_subsystem.setOutputSpeed(-m_speed * 1.2);
+      m_subsystem.setOutputSpeed(-m_speed * NoteHandlingConstants.kOutputRollerMultiplier);
     }
     else
     {

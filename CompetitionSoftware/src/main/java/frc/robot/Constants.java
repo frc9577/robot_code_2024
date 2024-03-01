@@ -92,6 +92,7 @@ public final class Constants {
     public static final boolean kNoteSensorNormallyOpen = true;
 
     public static final double kRollerSpeed = -0.6;
+    public static final double kOutputRollerMultiplier = 1.3;
 
     public static final int kIntakeCurrentLimit = 50;
     public static final int kOutputCurrentLimit = 30;
@@ -123,7 +124,7 @@ public final class Constants {
     public static final double kTopRawEncoderValue    = 0.386;
     public static final double kTopAngle              = 115.0; 
 
-    public static final double kScoreAngle            = 120.0;
+    public static final double kScoreAngle            = 130.0;
     public static final double kMiddleAngle           = 20.0;
     public static final double kIntakeAngle           = -5.7;
 
