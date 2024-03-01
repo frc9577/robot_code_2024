@@ -4,6 +4,9 @@
 
 package frc.robot;
 import frc.robot.Constants.*;
+import frc.robot.commands.AutonomousDrive2Sec;
+import frc.robot.commands.AutonomousDrive4Sec;
+import frc.robot.commands.AutonomousDrive6Sec;
 import frc.robot.commands.AutonomousPassLine;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.NoteHandlingSpeedCommand;
@@ -134,7 +137,9 @@ public class RobotContainer {
   {
     // Drop-down chooser for auto program.
     m_autoChooser.setDefaultOption("Pass Auto Line", new AutonomousPassLine(m_driveSubsystem));
-    // m_autoChooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
+    m_autoChooser.addOption("Drive forward 2 Seconds", new AutonomousDrive2Sec(m_driveSubsystem));
+    m_autoChooser.addOption("Drive forward 4 Seconds", new AutonomousDrive4Sec(m_driveSubsystem));
+    m_autoChooser.addOption("Drive forward 6 Seconds", new AutonomousDrive6Sec(m_driveSubsystem));
     SmartDashboard.putData(m_autoChooser);
 
     // Drive control option selector
