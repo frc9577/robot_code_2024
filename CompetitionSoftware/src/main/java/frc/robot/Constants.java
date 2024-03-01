@@ -103,7 +103,7 @@ public final class Constants {
     // TODO: Need to tune
     // SparkMax PID coefficients for the rotation controller.
     // These are currently taken from the REV example at https://github.com/REVrobotics/SPARK-MAX-Examples/blob/master/Java/Position%20Closed%20Loop%20Control/src/main/java/frc/robot/Robot.java
-    public static final double kP         = 1;
+    public static final double kP         = 2.0;
     public static final double kI         = 0.0;
     public static final double kD         = 0.0;
     public static final double kIZone     = 0.0;
@@ -118,12 +118,12 @@ public final class Constants {
     public static final double kStartingAngle         = 30.0;
 
     public static final double kBottomRawEncoderValue = 0.680;
-    public static final double kBottomAngle           = -5.0;
+    public static final double kBottomAngle           = -10.0;
 
     public static final double kTopRawEncoderValue    = 0.386;
-    public static final double kTopAngle              = 100.0; 
+    public static final double kTopAngle              = 115.0; 
 
-    public static final double kScoreAngle            = 100.0;
+    public static final double kScoreAngle            = 120.0;
     public static final double kMiddleAngle           = 20.0;
     public static final double kIntakeAngle           = -5.7;
 
@@ -132,6 +132,6 @@ public final class Constants {
     // rotation count.
     public static final int kOutputShaftRatio         = 75;
 
-    public static final int kMotorCurrentLimit        = 40;
+    public static final int kMotorCurrentLimit        = 60;
   }
 }
