@@ -93,8 +93,8 @@ public final class Constants {
 
     public static final double kRollerSpeed = -0.6;
 
-    public static final int kIntakeCurrentLimit = 40;
-    public static final int kOutputCurrentLimit = 20;
+    public static final int kIntakeCurrentLimit = 50;
+    public static final int kOutputCurrentLimit = 30;
   }
 
   public static class GooseRotationConstants {

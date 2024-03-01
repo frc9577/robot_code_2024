@@ -30,7 +30,7 @@ public class NoteHandlingSpeedCommand extends Command {
     m_subsystem.setIntakeSpeed(m_speed);
     if (!m_isInput)
     {
-      m_subsystem.setOutputSpeed(-m_speed);
+      m_subsystem.setOutputSpeed(-m_speed * 1.2);
     }
     else
     {
