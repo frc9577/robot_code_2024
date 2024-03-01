@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
   /** Constants that define the settings of the driver camera */
   public static final int kDriverCameraResolutionX = 640;
   public static final int kDriverCameraResolutionY = 360;
-  public static final int kDriverCameraFPS         = 15;
+  public static final int kDriverCameraFPS         = 10;
   
   private UsbCamera driverCamera;
 
@@ -65,6 +65,8 @@ public class Robot extends TimedRobot {
 
     // Send back telemetry to driver station
     m_robotContainer.reportStatus();
+
+    
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

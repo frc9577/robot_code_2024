@@ -117,15 +117,15 @@ public final class Constants {
     // TODO: The next 7 values are guesses and need to be measured.
     public static final double kStartingAngle         = 30.0;
 
-    public static final double kBottomRawEncoderValue = 0.5092;
-    public static final double kBottomAngle           = 0.0;
+    public static final double kBottomRawEncoderValue = 0.680;
+    public static final double kBottomAngle           = -5.0;
 
-    public static final double kTopRawEncoderValue    = 0.19;
-    public static final double kTopAngle              = 110.0; 
+    public static final double kTopRawEncoderValue    = 0.386;
+    public static final double kTopAngle              = 100.0; 
 
     public static final double kScoreAngle            = 100.0;
     public static final double kMiddleAngle           = 20.0;
-    public static final double kIntakeAngle           = 3.0;
+    public static final double kIntakeAngle           = -5.7;
 
     // This defines the gear ratio between the motor and output shafts. Divide
     // the motor rotation count by this number to determine the output shaft
