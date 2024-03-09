@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.*;
-import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.ArcadeDriveCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Joystick;
@@ -54,16 +53,9 @@ public class DriveSubsystem extends SubsystemBase
     m_NavX.zeroYaw();
   }
 
-  public void initDefaultCommand(Joystick leftJoystick, Joystick rightJoystick, Boolean bArcadeDrive)
+  public void initDefaultCommand(Joystick leftJoystick)
   {
-    if (bArcadeDrive)
-    {
-      setDefaultCommand(new ArcadeDriveCommand(this, leftJoystick));
-    }
-    else
-    {
-      setDefaultCommand(new TankDriveCommand(this, leftJoystick, rightJoystick));
-    }
+    setDefaultCommand(new ArcadeDriveCommand(this, leftJoystick));
   }
 
   // Sets left and right motors to set speeds to support tank drive models.

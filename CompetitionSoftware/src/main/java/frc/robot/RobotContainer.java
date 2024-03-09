@@ -11,7 +11,6 @@ import frc.robot.commands.AutonomousPassLine;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.NoteHandlingSpeedCommand;
 import frc.robot.commands.RotateCommand;
-import frc.robot.commands.SetDriveStraightCommand;
 import frc.robot.commands.SetGearCommand;
 import frc.robot.commands.SetModeCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -38,7 +37,6 @@ public class RobotContainer {
 
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_autoChooser = new SendableChooser<>();
-  private final SendableChooser<Boolean> m_driveTypeChooser = new SendableChooser<>();
 
   // The robot's subsystems and commands are defined here...
   private final PneumaticHub   m_pnuematicHub   = new PneumaticHub();
@@ -50,7 +48,6 @@ public class RobotContainer {
   // Joysticks
   private final XboxController m_operatorController = new XboxController(OperatorConstants.kOperatorController);
   private final Joystick m_driverJoystickLeft = new Joystick(DriverConstants.kLeftDriveJoystick);
-  private final Joystick m_driverJoystickRight = new Joystick(DriverConstants.kRightDriveJoystick);
 
   // Driver Buttons
   public final JoystickButton m_lowGearButton =
@@ -60,9 +57,6 @@ public class RobotContainer {
     new JoystickButton(m_driverJoystickLeft, DriverConstants.kForwardMode);
   public final JoystickButton m_reverseModeButton = 
     new JoystickButton(m_driverJoystickLeft, DriverConstants.kReverseMode);
-
-  public final JoystickButton m_driveStraightButton = 
-    new JoystickButton(m_driverJoystickRight, DriverConstants.kDriveStraight);
 
   // Pnuematics Climb Buttons
   private final JoystickButton m_climbUpButton =
@@ -139,27 +133,17 @@ public class RobotContainer {
     m_autoChooser.addOption("Drive forward 4 Seconds", new AutonomousDrive4Sec(m_driveSubsystem));
     m_autoChooser.addOption("Drive forward 6 Seconds", new AutonomousDrive6Sec(m_driveSubsystem));
     SmartDashboard.putData(m_autoChooser);
-
-    // Drive control option selector
-    m_driveTypeChooser.setDefaultOption("Arcade Drive", true);
-    m_driveTypeChooser.addOption("Tank Drive", false);
-    SmartDashboard.putData(m_driveTypeChooser);
   }
 
   private void configureBindings() 
   {
     // Drive Controllers. We set arcade drive as the default here but may change this
     // during teleopInit depending upon the value of a dashboard chooser.
-    m_driveSubsystem.initDefaultCommand(m_driverJoystickLeft, m_driverJoystickRight, true);
-
     m_lowGearButton.onTrue(new SetGearCommand(m_driveSubsystem, true));
     m_lowGearButton.onFalse(new SetGearCommand(m_driveSubsystem, false));
 
     m_forwardModeButton.onTrue(new SetModeCommand(m_driveSubsystem, false));
     m_reverseModeButton.onTrue(new SetModeCommand(m_driveSubsystem, true));
-
-    m_driveStraightButton.onTrue(new SetDriveStraightCommand(m_driveSubsystem, true));
-    m_driveStraightButton.onFalse(new SetDriveStraightCommand(m_driveSubsystem, false));
 
     // Climb Buttons
     m_climbUpButton.onTrue(new ClimbCommand(m_climbSubsystem, ClimbSubsystem.State.LIFTED));
@@ -206,11 +190,9 @@ public class RobotContainer {
     return m_autoChooser.getSelected();
   }
 
-  // Set the driver's choice of control mode based on the selection provided
-  // in a dashboard control.
+  // Set drive command to arcade
   public void setDriveType()
   {
-    Boolean bArcade = m_driveTypeChooser.getSelected();
-    m_driveSubsystem.initDefaultCommand(m_driverJoystickLeft, m_driverJoystickRight, bArcade);
+    m_driveSubsystem.initDefaultCommand(m_driverJoystickLeft);
   }
 }
