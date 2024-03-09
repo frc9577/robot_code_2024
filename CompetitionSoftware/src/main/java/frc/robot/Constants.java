@@ -125,14 +125,12 @@ public final class Constants {
     public static final double kTopAngle              = 115.0; 
 
     public static final double kScoreAngle            = 130.0;
-    public static final double kMiddleAngle           = 20.0;
+    public static final double kMiddleAngle           = 40.0;
     public static final double kIntakeAngle           = -5.7;
 
     // This defines the gear ratio between the motor and output shafts. Divide
     // the motor rotation count by this number to determine the output shaft
     // rotation count.
-    public static final int kOutputShaftRatio         = 75;
-
-    public static final int kMotorCurrentLimit        = 60;
+    public static final int kMotorCurrentLimit        = 30;
   }
 }
