@@ -47,16 +47,16 @@ public class RobotContainer {
 
   // Joysticks
   private final XboxController m_operatorController = new XboxController(OperatorConstants.kOperatorController);
-  private final Joystick m_driverJoystickLeft = new Joystick(DriverConstants.kLeftDriveJoystick);
+  private final Joystick m_driverJoystick = new Joystick(DriverConstants.kDriveJoystick);
 
   // Driver Buttons
   public final JoystickButton m_lowGearButton =
-    new JoystickButton(m_driverJoystickLeft, DriverConstants.kLowGear);
+    new JoystickButton(m_driverJoystick, DriverConstants.kLowGear);
 
   public final JoystickButton m_forwardModeButton = 
-    new JoystickButton(m_driverJoystickLeft, DriverConstants.kForwardMode);
+    new JoystickButton(m_driverJoystick, DriverConstants.kForwardMode);
   public final JoystickButton m_reverseModeButton = 
-    new JoystickButton(m_driverJoystickLeft, DriverConstants.kReverseMode);
+    new JoystickButton(m_driverJoystick, DriverConstants.kReverseMode);
 
   // Pnuematics Climb Buttons
   private final JoystickButton m_climbUpButton =
@@ -193,6 +193,6 @@ public class RobotContainer {
   // Set drive command to arcade
   public void setDriveType()
   {
-    m_driveSubsystem.initDefaultCommand(m_driverJoystickLeft);
+    m_driveSubsystem.initDefaultCommand(m_driverJoystick);
   }
 }

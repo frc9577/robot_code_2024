@@ -36,8 +36,7 @@ public final class Constants {
   }
 
   public static class DriverConstants {
-    public static final int kLeftDriveJoystick = 0;
-    public static final int kRightDriveJoystick = 1;
+    public static final int kDriveJoystick = 0;
 
     public static final double kTurnDivider = 2.0;
     public static final double kLowGearDivider = 2.0;
