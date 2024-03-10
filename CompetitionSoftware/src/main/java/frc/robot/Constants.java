@@ -68,8 +68,8 @@ public final class Constants {
     public static final int kSpitOut = 10;  // right joystick down
 
     public static final double kGooseAngleIncrement = 1.0;
-    public static final double kGooseAngleMax = 130.0;
-    public static final double kGooseAngleMin = -10.0;
+    public static final double kGooseAngleMax = 120.0;
+    public static final double kGooseAngleMin = 0.0;
   }
 
   public static class ClimbConstants {
@@ -117,15 +117,15 @@ public final class Constants {
     // TODO: The next 7 values are guesses and need to be measured.
     public static final double kStartingAngle         = 30.0;
 
-    public static final double kBottomRawEncoderValue = 0.680;
-    public static final double kBottomAngle           = -10.0;
+    public static final double kBottomRawEncoderValue = 0.523;
+    public static final double kBottomAngle           = 0.0;
 
-    public static final double kTopRawEncoderValue    = 0.386;
-    public static final double kTopAngle              = 115.0; 
+    public static final double kTopRawEncoderValue    = 0.205;
+    public static final double kTopAngle              = 115.0;
 
     public static final double kScoreAngle            = 130.0;
     public static final double kMiddleAngle           = 40.0;
-    public static final double kIntakeAngle           = -5.7;
+    public static final double kIntakeAngle           = 0.0;
 
     // This defines the gear ratio between the motor and output shafts. Divide
     // the motor rotation count by this number to determine the output shaft
