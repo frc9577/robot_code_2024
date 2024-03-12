@@ -45,9 +45,7 @@ public final class Constants {
     public static final int kLowGear = 1; // Joystick Trigger
     public static final int kReverseMode = 9; // Joystick button 9
     public static final int kForwardMode = 7; // Joystick button 7
-    
-    // Right Joystick
-    public static final int kDriveStraight = 1; // Joystick Trigger
+  
   }
 
   public static class OperatorConstants {
@@ -99,6 +97,7 @@ public final class Constants {
 
   public static class GooseRotationConstants {
     public static final int kRotateMotorCANID = 40;
+    public static final int kSmartMotionSlot  = 0;
 
     // TODO: Need to tune
     // SparkMax PID coefficients for the rotation controller.
@@ -110,6 +109,13 @@ public final class Constants {
     public static final double kFF        = 0.0;
     public static final double kMinOutput = -1.0;
     public static final double kMaxOutput = 1.0;
+
+    public static final double kMaxVelocity     = 1500.0;
+    public static final double kMinVelocity     = 0.0;
+    public static final double kMaxAcceleration = 500.0;
+    public static final double kMaxError        = 0.1;
+
+    public static final boolean kUseSmartMotion = false;
 
     // Starting in a non-end positon, there will be a switch at one or both of the end positions.
     // When the switch(s) are hit the software will reset to the known position.
