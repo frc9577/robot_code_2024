@@ -7,7 +7,7 @@ import frc.robot.Constants.*;
 import frc.robot.commands.AutonomousDrive2Sec;
 import frc.robot.commands.AutonomousDrive4Sec;
 import frc.robot.commands.AutonomousDrive6Sec;
-import frc.robot.commands.AutonomousPassLine;
+import frc.robot.commands.AutonomousDriveSec;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.NoteHandlingSpeedCommand;
 import frc.robot.commands.RotateCommand;
@@ -128,10 +128,11 @@ public class RobotContainer {
   private void configureDriverStationControls()
   {
     // Drop-down chooser for auto program.
-    m_autoChooser.setDefaultOption("Pass Auto Line", new AutonomousPassLine(m_driveSubsystem));
     m_autoChooser.addOption("Drive forward 2 Seconds", new AutonomousDrive2Sec(m_driveSubsystem));
     m_autoChooser.addOption("Drive forward 4 Seconds", new AutonomousDrive4Sec(m_driveSubsystem));
     m_autoChooser.addOption("Drive forward 6 Seconds", new AutonomousDrive6Sec(m_driveSubsystem));
+    m_autoChooser.addOption("TEST-DRIVE: Drive forward 2 Seconds", new AutonomousDriveSec(m_driveSubsystem, 2));
+    m_autoChooser.addOption("TEST-ARM: Drive forward 2 Seconds & Set to drive", new AutonomousDriveSec(m_driveSubsystem, 2).andThen(new RotateCommand(m_rotationSubsystem,GooseRotationConstants.kScoreAngle)));
     SmartDashboard.putData(m_autoChooser);
   }
 
