@@ -16,7 +16,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 public class Robot extends TimedRobot {
   private DifferentialDrive m_myRobot;
   private Joystick m_leftStick;
-  private Joystick m_rightStick;
 
   private final TalonFX m_leftMotor  = new TalonFX(10);
   private final TalonFX m_rightMotor = new TalonFX(20);
@@ -30,11 +29,10 @@ public class Robot extends TimedRobot {
 
     m_myRobot = new DifferentialDrive(m_leftMotor, m_rightMotor);
     m_leftStick = new Joystick(0);
-    m_rightStick = new Joystick(1);
   }
 
   @Override
   public void teleopPeriodic() {
-    m_myRobot.tankDrive(-m_leftStick.getY(), -m_rightStick.getY(), true);
+    m_myRobot.arcadeDrive(-m_leftStick.getY(), -(m_leftStick.getTwist()/2.0), true);
   }
 }
