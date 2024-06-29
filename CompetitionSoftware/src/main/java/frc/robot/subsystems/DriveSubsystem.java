@@ -10,11 +10,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.SPI;
 
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.kauailabs.navx.frc.AHRS;
 
 public class DriveSubsystem extends SubsystemBase
 {
@@ -22,7 +20,6 @@ public class DriveSubsystem extends SubsystemBase
   private final TalonFX m_leftBackMotor   = new TalonFX(DrivetrainConstants.kLeftBackMotorCANID);
   private final TalonFX m_rightFrontMotor = new TalonFX(DrivetrainConstants.kRightFrontMotorCANID);
   private final TalonFX m_rightBackMotor  = new TalonFX(DrivetrainConstants.kRightBackMotorCANID);
-  private final AHRS m_NavX               = new AHRS(SPI.Port.kMXP);
   private DifferentialDrive m_Drivetrain;
   private double m_leftSpeed  = 0.0;
   private double m_rightSpeed = 0.0;
@@ -46,11 +43,6 @@ public class DriveSubsystem extends SubsystemBase
     m_rightBackMotor.setControl(new Follower(m_rightFrontMotor.getDeviceID(), false));
 
     m_Drivetrain = new DifferentialDrive(m_leftFrontMotor, m_rightFrontMotor);
-
-    
-    // Set gyro 0 angle to point forward.
-    m_NavX.reset();
-    m_NavX.zeroYaw();
   }
 
   public void initDefaultCommand(Joystick leftJoystick)
@@ -108,11 +100,6 @@ public class DriveSubsystem extends SubsystemBase
     {
       return m_rightSpeed;
     }
-  }
-
-  public double getHeading()
-  {
-    return (double)m_NavX.getYaw();
   }
 
   @Override

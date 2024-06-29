@@ -106,12 +106,6 @@ public class RobotContainer {
       SmartDashboard.putBoolean("Compressor Running", m_pnuematicHub.getCompressor());
     }
 
-    if(m_tickCount % (RobotConstants.periodicTicksPerSecond/RobotConstants.imuReportingFreq) == 0)
-    {
-      // Report IMU state.
-      SmartDashboard.putNumber("Heading", m_driveSubsystem.getHeading());
-    }
-
     if(m_tickCount % (RobotConstants.periodicTicksPerSecond/RobotConstants.gooseReportingFreq) == 0)
     {
       // Report Goose ARM state.
