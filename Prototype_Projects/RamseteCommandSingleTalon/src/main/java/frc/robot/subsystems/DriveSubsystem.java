@@ -9,7 +9,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants.DriveConstants;
@@ -49,19 +48,19 @@ public class DriveSubsystem extends SubsystemBase {
     // m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
     // m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
   TalonFXConfiguration config = new TalonFXConfiguration();
-  config.Feedback.SensorToMechanismRatio = DriveConstants.kDrivetrainGearboxRatio;
+  config.Feedback.SensorToMechanismRatio = DriveConstants.kDistancePerTalonRotation;
 
     resetEncoders();
     m_odometry =
         new DifferentialDriveOdometry(
-            m_gyro.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance());
+            m_gyro.getRotation2d(), m_leftLeader.getPosition().getValue(), m_rightLeader.getPosition().getValue());
   }
 
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        m_gyro.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance());
+        m_gyro.getRotation2d(), m_leftLeader.getPosition().getValue(), m_rightLeader.getPosition().getValue());
   }
 
   /**
@@ -79,7 +78,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The current wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
+    return new DifferentialDriveWheelSpeeds(m_leftLeader.getVelocity().getValue(), m_rightLeader.getVelocity().getValue());
   }
 
   /**
@@ -90,7 +89,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
     m_odometry.resetPosition(
-        m_gyro.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance(), pose);
+        m_gyro.getRotation2d(), m_leftLeader.getPosition().getValue(), m_rightLeader.getPosition().getValue(), pose);
   }
 
   /**
@@ -128,25 +127,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the average of the two encoder readings
    */
   public double getAverageEncoderDistance() {
-    return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
-  }
-
-  /**
-   * Gets the left drive encoder.
-   *
-   * @return the left drive encoder
-   */
-  public Encoder getLeftEncoder() {
-    return m_leftEncoder;
-  }
-
-  /**
-   * Gets the right drive encoder.
-   *
-   * @return the right drive encoder
-   */
-  public Encoder getRightEncoder() {
-    return m_rightEncoder;
+    return (m_leftLeader.getPosition().getValue() + m_rightLeader.getPosition().getValue()) / 2.0;
   }
 
   /**
