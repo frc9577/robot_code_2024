@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 
 /**
  * This is a simple program supporting a basic drivetrain powered by a single Kraken (TalonFX)
@@ -28,11 +29,23 @@ public class Robot extends TimedRobot {
     m_rightMotor.setInverted(true);
 
     m_myRobot = new DifferentialDrive(m_leftMotor, m_rightMotor);
+    m_leftMotor.setPosition(0.0);
+    m_rightMotor.setPosition(0.0);
+
     m_leftStick = new Joystick(0);
+  }
+
+  @Override
+  public void teleopInit() {
+    m_leftMotor.setPosition(0.0);
+    m_rightMotor.setPosition(0.0);
   }
 
   @Override
   public void teleopPeriodic() {
     m_myRobot.arcadeDrive(-m_leftStick.getY(), -(m_leftStick.getTwist()/2.0), true);
+
+    SmartDashboard.putNumber("LeftPosition", m_leftMotor.getPosition().getValue());
+    SmartDashboard.putNumber("RightPosition", m_rightMotor.getPosition().getValue());
   }
 }

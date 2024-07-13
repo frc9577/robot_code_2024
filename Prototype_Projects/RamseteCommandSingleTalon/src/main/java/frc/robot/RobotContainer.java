@@ -14,6 +14,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.Constants.AutoConstants;
@@ -39,7 +40,7 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  Joystick m_driverController = new Joystick(OIConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -53,8 +54,7 @@ public class RobotContainer {
         // hand, and turning controlled by the right.
         new RunCommand(
             () ->
-                m_robotDrive.arcadeDrive(
-                    -m_driverController.getLeftY(), -m_driverController.getRightX()),
+                m_robotDrive.arcadeDrive(-m_driverController.getY(), -(m_driverController.getTwist()/2.0), true),
             m_robotDrive));
   }
 

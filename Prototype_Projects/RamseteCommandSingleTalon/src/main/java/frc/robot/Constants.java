@@ -26,11 +26,10 @@ public final class Constants {
     public static final DifferentialDriveKinematics kDriveKinematics =
         new DifferentialDriveKinematics(kTrackwidthMeters);
 
-    // TODO: Figure out gearbox ratio - AndyMark Toughbox Mini can be 5.95, 8.45 or 10.71 
-    public static final double kDrivetrainGearboxRatio = 5.95; // todo: correct this
-    public static final double kWheelDiameterMeters = 0.15;
+    public static final double kDrivetrainGearboxRatio = 11.57; // yes this is correct...
+    public static final double kWheelDiameterMeters = 0.1524;
     public static final double kDistancePerTalonRotation =
-        (kWheelDiameterMeters * Math.PI) * kDrivetrainGearboxRatio;
+        (kWheelDiameterMeters * Math.PI) / kDrivetrainGearboxRatio;
 
     // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
     // These characterization values MUST be determined either experimentally or theoretically

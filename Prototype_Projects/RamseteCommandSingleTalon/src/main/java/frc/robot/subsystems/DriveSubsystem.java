@@ -12,7 +12,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants.DriveConstants;
-
+import edu.wpi.first.wpilibj.smartdashboard.*;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -47,20 +47,36 @@ public class DriveSubsystem extends SubsystemBase {
     // Sets the distance per pulse for the encoders
     // m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
     // m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
-  TalonFXConfiguration config = new TalonFXConfiguration();
-  config.Feedback.SensorToMechanismRatio = DriveConstants.kDistancePerTalonRotation;
+    TalonFXConfiguration config = new TalonFXConfiguration();
+    config.Feedback.SensorToMechanismRatio = DriveConstants.kDistancePerTalonRotation;
 
     resetEncoders();
+    double leftPosition = m_leftLeader.getPosition().getValue() * DriveConstants.kDistancePerTalonRotation;
+    double rightPosition = m_rightLeader.getPosition().getValue() * DriveConstants.kDistancePerTalonRotation;
+
     m_odometry =
         new DifferentialDriveOdometry(
-            m_gyro.getRotation2d(), m_leftLeader.getPosition().getValue(), m_rightLeader.getPosition().getValue());
+            m_gyro.getRotation2d(), leftPosition, rightPosition);
   }
 
   @Override
   public void periodic() {
+    double leftPosition = m_leftLeader.getPosition().getValue() * DriveConstants.kDistancePerTalonRotation;
+    double leftVelocity = m_leftLeader.getVelocity().getValue() * DriveConstants.kDistancePerTalonRotation;
+
+    double rightPosition = m_rightLeader.getPosition().getValue() * DriveConstants.kDistancePerTalonRotation;
+    double rightVelocity = m_rightLeader.getVelocity().getValue() * DriveConstants.kDistancePerTalonRotation;
+
     // Update the odometry in the periodic block
     m_odometry.update(
-        m_gyro.getRotation2d(), m_leftLeader.getPosition().getValue(), m_rightLeader.getPosition().getValue());
+        m_gyro.getRotation2d(), leftPosition, rightPosition);
+
+    // Update Smart Dashbord
+    SmartDashboard.putNumber("leftPosition", leftPosition);
+    SmartDashboard.putNumber("leftVelocity", leftVelocity);
+
+    SmartDashboard.putNumber("rightPosition", rightPosition);
+    SmartDashboard.putNumber("rightVelocity", rightVelocity);
   }
 
   /**
@@ -78,7 +94,10 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The current wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(m_leftLeader.getVelocity().getValue(), m_rightLeader.getVelocity().getValue());
+    double leftVelocity = m_leftLeader.getVelocity().getValue() * DriveConstants.kDistancePerTalonRotation;
+    double rightVelocity = m_rightLeader.getVelocity().getValue() * DriveConstants.kDistancePerTalonRotation;
+
+    return new DifferentialDriveWheelSpeeds(leftVelocity, rightVelocity);
   }
 
   /**
@@ -88,8 +107,11 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
+    double leftPosition = m_leftLeader.getPosition().getValue() * DriveConstants.kDistancePerTalonRotation;
+    double rightPosition = m_rightLeader.getPosition().getValue() * DriveConstants.kDistancePerTalonRotation;
+    
     m_odometry.resetPosition(
-        m_gyro.getRotation2d(), m_leftLeader.getPosition().getValue(), m_rightLeader.getPosition().getValue(), pose);
+        m_gyro.getRotation2d(), leftPosition, rightPosition, pose);
   }
 
   /**
@@ -98,8 +120,8 @@ public class DriveSubsystem extends SubsystemBase {
    * @param fwd the commanded forward movement
    * @param rot the commanded rotation
    */
-  public void arcadeDrive(double fwd, double rot) {
-    m_drive.arcadeDrive(fwd, rot);
+  public void arcadeDrive(double fwd, double rot, boolean squared) {
+    m_drive.arcadeDrive(fwd, rot, squared);
   }
 
   /**
@@ -127,7 +149,10 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the average of the two encoder readings
    */
   public double getAverageEncoderDistance() {
-    return (m_leftLeader.getPosition().getValue() + m_rightLeader.getPosition().getValue()) / 2.0;
+    double leftPosition = m_leftLeader.getPosition().getValue() * DriveConstants.kDistancePerTalonRotation;
+    double rightPosition = m_rightLeader.getPosition().getValue() * DriveConstants.kDistancePerTalonRotation;
+
+    return (leftPosition + rightPosition) / 2.0;
   }
 
   /**
