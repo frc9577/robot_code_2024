@@ -9,7 +9,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -28,8 +29,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final DifferentialDrive m_drive =
       new DifferentialDrive(m_leftLeader::set, m_rightLeader::set);
 
-  // The gyro sensor
-  private final AHRS m_gyro = new AHRS(SPI.Port.kMXP);
+  // The gyro sensor. NOTE: we discovered experimentally that SPI and UART do not work
+  private final AHRS m_gyro = new AHRS(I2C.Port.kMXP);
 
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
@@ -67,16 +68,22 @@ public class DriveSubsystem extends SubsystemBase {
     double rightPosition = m_rightLeader.getPosition().getValue() * DriveConstants.kDistancePerTalonRotation;
     double rightVelocity = m_rightLeader.getVelocity().getValue() * DriveConstants.kDistancePerTalonRotation;
 
+    double gyroRotation = m_gyro.getAngle();
+
     // Update the odometry in the periodic block
     m_odometry.update(
         m_gyro.getRotation2d(), leftPosition, rightPosition);
 
     // Update Smart Dashbord
+    SmartDashboard.putNumber("gyroRotation", gyroRotation);
     SmartDashboard.putNumber("leftPosition", leftPosition);
     SmartDashboard.putNumber("leftVelocity", leftVelocity);
 
     SmartDashboard.putNumber("rightPosition", rightPosition);
     SmartDashboard.putNumber("rightVelocity", rightVelocity);
+    
+    SmartDashboard.putNumber("gyroUpdates", m_gyro.getUpdateCount());
+    SmartDashboard.putBoolean("gyroConnected", m_gyro.isConnected());
   }
 
   /**
