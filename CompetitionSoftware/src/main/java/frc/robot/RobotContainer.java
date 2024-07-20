@@ -13,6 +13,7 @@ import frc.robot.commands.NoteHandlingSpeedCommand;
 import frc.robot.commands.RotateCommand;
 import frc.robot.commands.SetGearCommand;
 import frc.robot.commands.SetModeCommand;
+import frc.robot.commands.waitCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GooseRotationSubsystem;
 import frc.robot.subsystems.NoteHandlingSubsystem;
@@ -118,6 +119,10 @@ public class RobotContainer {
       SmartDashboard.putNumber("Goose Raw Measurement", m_rotationSubsystem.getEncoderValue());
       SmartDashboard.putNumber("Goose Set Point", m_rotationSubsystem.getSetPointAngle());
       SmartDashboard.putNumber("Goose Current Angle", m_rotationSubsystem.getAngle());
+
+      // Report Wheel Rotations
+      SmartDashboard.putNumber("Motor Left Position", m_driveSubsystem.getRotation(true));
+      SmartDashboard.putNumber("Motor Right Position", m_driveSubsystem.getRotation(false));
     }
     m_tickCount += 1;
   }
@@ -132,7 +137,7 @@ public class RobotContainer {
     m_autoChooser.addOption("Drive forward 4 Seconds", new AutonomousDrive4Sec(m_driveSubsystem));
     m_autoChooser.addOption("Drive forward 6 Seconds", new AutonomousDrive6Sec(m_driveSubsystem));
     m_autoChooser.addOption("TEST-DRIVE: Drive forward 2 Seconds", new AutonomousDriveSec(m_driveSubsystem, 2));
-    m_autoChooser.addOption("TEST-ARM: Drive forward 2 Seconds & Set to drive", new AutonomousDriveSec(m_driveSubsystem, 2).andThen(new RotateCommand(m_rotationSubsystem,GooseRotationConstants.kScoreAngle)));
+    m_autoChooser.addOption("TEST-ARM: Drive forward 2 Seconds & Set to drive", new AutonomousDriveSec(m_driveSubsystem, 2).andThen(new RotateCommand(m_rotationSubsystem,GooseRotationConstants.kScoreAngle)).andThen(new waitCommand(1000)).andThen(new RotateCommand(m_rotationSubsystem,GooseRotationConstants.kMiddleAngle)).andThen(new waitCommand(1000)).andThen(new RotateCommand(m_rotationSubsystem, GooseRotationConstants.kIntakeAngle)));
     SmartDashboard.putData(m_autoChooser);
   }
 

@@ -110,6 +110,18 @@ public class DriveSubsystem extends SubsystemBase
     }
   }
 
+  public double getRotation(boolean bLeft)
+  {
+    if (bLeft)
+    {
+      return m_leftFrontMotor.getPosition().getValueAsDouble();
+    }
+    else
+    {
+      return m_rightFrontMotor.getPosition().getValueAsDouble();
+    }
+  }
+
   public double getHeading()
   {
     return (double)m_NavX.getYaw();
