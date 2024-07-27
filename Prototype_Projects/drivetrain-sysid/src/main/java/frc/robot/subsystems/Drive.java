@@ -16,6 +16,7 @@ import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -125,5 +126,15 @@ public class Drive extends SubsystemBase {
    */
   public Command sysIdDynamic(SysIdRoutine.Direction direction) {
     return m_sysIdRoutine.dynamic(direction);
+  }
+
+  public void outputDistance() {
+    SmartDashboard.putNumber("Left Distance", getDistance(m_leftMotor));
+    SmartDashboard.putNumber("Right Distance", getDistance(m_rightMotor));
+  }
+
+  public void arcadeDrive(double speed, double turn)
+  {
+    m_drive.arcadeDrive(speed, turn);
   }
 }

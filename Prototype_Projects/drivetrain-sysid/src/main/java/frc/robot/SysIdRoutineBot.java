@@ -6,11 +6,12 @@ package frc.robot;
 
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.Shooter;
+//import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.ArcadeDriveCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -21,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 public class SysIdRoutineBot {
   // The robot's subsystems
   private final Drive m_drive = new Drive();
-  private final Shooter m_shooter = new Shooter();
+  //private final Shooter m_shooter = new Shooter();
 
   // The driver's controller
   CommandXboxController m_driverController =
@@ -37,10 +38,11 @@ public class SysIdRoutineBot {
    */
   public void configureBindings() {
     // Control the drive with split-stick arcade controls
-    m_drive.setDefaultCommand(
-        m_drive.arcadeDriveCommand(
-            () -> -m_driverController.getLeftY(), () -> -m_driverController.getRightX()));
-
+    // m_drive.setDefaultCommand( 
+    //     m_drive.arcadeDriveCommand(
+    //         () -> -m_driverController.getLeftY(), () -> -m_driverController.getRightX()));
+    m_drive.setDefaultCommand(new ArcadeDriveCommand(m_drive, m_driverController.getHID()));
+    
     // Bind full set of SysId routine tests to buttons; a complete routine should run each of these
     // once.
     // Using bumpers as a modifier and combining it with the buttons so that we can have both sets
@@ -63,7 +65,7 @@ public class SysIdRoutineBot {
         .whileTrue(m_drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Control the shooter wheel with the left trigger
-    m_shooter.setDefaultCommand(m_shooter.runShooter(m_driverController::getLeftTriggerAxis));
+    //m_shooter.setDefaultCommand(m_shooter.runShooter(m_driverController::getLeftTriggerAxis));
 
     m_driverController
         .a()
