@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.util.Units;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -16,21 +14,18 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static final class DriveConstants {
-    public static final int kLeftMotor1Port = 0;
-    public static final int kLeftMotor2Port = 1;
-    public static final int kRightMotor1Port = 2;
-    public static final int kRightMotor2Port = 3;
+    public static final int kLeftMotor1Port = 10;
+    public static final int kRightMotor1Port = 20;
 
     public static final int[] kLeftEncoderPorts = {0, 1};
     public static final int[] kRightEncoderPorts = {2, 3};
     public static final boolean kLeftEncoderReversed = false;
     public static final boolean kRightEncoderReversed = true;
 
-    public static final int kEncoderCPR = 1024;
-    public static final double kWheelDiameterMeters = Units.inchesToMeters(6);
-    public static final double kEncoderDistancePerPulse =
-        // Assumes the encoders are directly mounted on the wheel shafts
-        (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
+    public static final double kDrivetrainGearboxRatio = 11.57;
+    public static final double kWheelDiameterMeters = 0.1524;
+    public static final double kDistancePerTalonRotation =
+        (kWheelDiameterMeters * Math.PI) / kDrivetrainGearboxRatio;
   }
 
   public static final class ShooterConstants {

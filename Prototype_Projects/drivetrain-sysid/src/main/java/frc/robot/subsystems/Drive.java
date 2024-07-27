@@ -14,40 +14,25 @@ import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants.DriveConstants;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import java.util.function.DoubleSupplier;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 public class Drive extends SubsystemBase {
   // The motors on the left side of the drive.
-  private final PWMSparkMax m_leftMotor = new PWMSparkMax(DriveConstants.kLeftMotor1Port);
+  private final TalonFX m_leftMotor = new TalonFX(DriveConstants.kLeftMotor1Port);
 
   // The motors on the right side of the drive.
-  private final PWMSparkMax m_rightMotor = new PWMSparkMax(DriveConstants.kRightMotor1Port);
+  private final TalonFX m_rightMotor = new TalonFX(DriveConstants.kRightMotor1Port);
 
   // The robot's drive
   private final DifferentialDrive m_drive =
       new DifferentialDrive(m_leftMotor::set, m_rightMotor::set);
-
-  // The left-side drive encoder
-  private final Encoder m_leftEncoder =
-      new Encoder(
-          DriveConstants.kLeftEncoderPorts[0],
-          DriveConstants.kLeftEncoderPorts[1],
-          DriveConstants.kLeftEncoderReversed);
-
-  // The right-side drive encoder
-  private final Encoder m_rightEncoder =
-      new Encoder(
-          DriveConstants.kRightEncoderPorts[0],
-          DriveConstants.kRightEncoderPorts[1],
-          DriveConstants.kRightEncoderReversed);
 
   // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
   private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
@@ -55,6 +40,16 @@ public class Drive extends SubsystemBase {
   private final MutableMeasure<Distance> m_distance = mutable(Meters.of(0));
   // Mutable holder for unit-safe linear velocity values, persisted to avoid reallocation.
   private final MutableMeasure<Velocity<Distance>> m_velocity = mutable(MetersPerSecond.of(0));
+
+  // Returns distance travled by inputed motor in meters
+  private double getDistance(TalonFX motor) {
+    return motor.getPosition().getValue() * DriveConstants.kDistancePerTalonRotation;
+  }
+
+  // Returns the velocity of the inputed motor in meters per second
+  private double getVelocity(TalonFX motor) {
+    return motor.getVelocity().getValue() * DriveConstants.kDistancePerTalonRotation;
+  }
 
   // Create a new SysId routine for characterizing the drive.
   private final SysIdRoutine m_sysIdRoutine =
@@ -76,18 +71,18 @@ public class Drive extends SubsystemBase {
                     .voltage(
                         m_appliedVoltage.mut_replace(
                             m_leftMotor.get() * RobotController.getBatteryVoltage(), Volts))
-                    .linearPosition(m_distance.mut_replace(m_leftEncoder.getDistance(), Meters))
+                    .linearPosition(m_distance.mut_replace(getDistance(m_leftMotor), Meters))
                     .linearVelocity(
-                        m_velocity.mut_replace(m_leftEncoder.getRate(), MetersPerSecond));
+                        m_velocity.mut_replace(getVelocity(m_leftMotor), MetersPerSecond));
                 // Record a frame for the right motors.  Since these share an encoder, we consider
                 // the entire group to be one motor.
                 log.motor("drive-right")
                     .voltage(
                         m_appliedVoltage.mut_replace(
                             m_rightMotor.get() * RobotController.getBatteryVoltage(), Volts))
-                    .linearPosition(m_distance.mut_replace(m_rightEncoder.getDistance(), Meters))
+                    .linearPosition(m_distance.mut_replace(getDistance(m_rightMotor), Meters))
                     .linearVelocity(
-                        m_velocity.mut_replace(m_rightEncoder.getRate(), MetersPerSecond));
+                        m_velocity.mut_replace(getVelocity(m_rightMotor), MetersPerSecond));
               },
               // Tell SysId to make generated commands require this subsystem, suffix test state in
               // WPILog with this subsystem's name ("drive")
@@ -95,18 +90,10 @@ public class Drive extends SubsystemBase {
 
   /** Creates a new Drive subsystem. */
   public Drive() {
-    // Add the second motors on each side of the drivetrain
-    m_leftMotor.addFollower(new PWMSparkMax(DriveConstants.kLeftMotor2Port));
-    m_rightMotor.addFollower(new PWMSparkMax(DriveConstants.kRightMotor2Port));
-
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
     m_rightMotor.setInverted(true);
-
-    // Sets the distance per pulse for the encoders
-    m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
-    m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
   }
 
   /**
