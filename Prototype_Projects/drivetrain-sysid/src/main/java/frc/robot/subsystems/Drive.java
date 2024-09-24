@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import java.util.function.DoubleSupplier;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.SignalLogger;
 
 public class Drive extends SubsystemBase {
   // The motors on the left side of the drive.
@@ -55,6 +56,8 @@ public class Drive extends SubsystemBase {
   // Create a new SysId routine for characterizing the drive.
   private final SysIdRoutine m_sysIdRoutine =
       new SysIdRoutine(
+          // TODO: We may want to change the ramp and time values here to
+          // prevent the robot from running outside out space!
           // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
           new SysIdRoutine.Config(),
           new SysIdRoutine.Mechanism(
@@ -63,6 +66,14 @@ public class Drive extends SubsystemBase {
                 m_leftMotor.setVoltage(volts.in(Volts));
                 m_rightMotor.setVoltage(volts.in(Volts));
               },
+              // TODO: We're using CTRE motors so may want to use their 
+              // SignalLogger class instead of relying on the logging functions
+              // below. This is mentioned in the WPILib SysId documentation at
+              // file:///C:/Users/Public/wpilib/2024/documentation/rtd/frc-docs-latest/docs/software/advanced-controls/system-identification/creating-routine.html
+              // and the CTRE class is documented at https://v6.docs.ctr-electronics.com/en/stable/docs/api-reference/api-usage/signal-logging.html.
+              // The documention hints that the method below should still work but the
+              // CTRE .hoot logs, converted in their TunerX tool may be better.
+
               // Tell SysId how to record a frame of data for each motor on the mechanism being
               // characterized.
               log -> {

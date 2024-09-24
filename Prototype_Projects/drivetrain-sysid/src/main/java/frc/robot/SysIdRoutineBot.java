@@ -46,6 +46,11 @@ public class SysIdRoutineBot {
     // once.
     // Using bumpers as a modifier and combining it with the buttons so that we can have both sets
     // of bindings at once
+
+    // TODO: If we want to use CTRE SignalLogger instead of the basic SysID logging,
+    // we will have to modify the bindings to run commands that set the logger output
+    // filename to something appropriate for the scenario being run, start the logger,
+    // run the command, then stop the logger when the command ends.
     m_driverController
         .a()
         .and(m_driverController.rightBumper())
@@ -61,26 +66,6 @@ public class SysIdRoutineBot {
     m_driverController
         .y()
         .and(m_driverController.rightBumper())
-        .whileTrue(m_drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
-
-    // Control the shooter wheel with the left trigger
-    //m_shooter.setDefaultCommand(m_shooter.runShooter(m_driverController::getLeftTriggerAxis));
-
-    m_driverController
-        .a()
-        .and(m_driverController.leftBumper())
-        .whileTrue(m_drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    m_driverController
-        .b()
-        .and(m_driverController.leftBumper())
-        .whileTrue(m_drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    m_driverController
-        .x()
-        .and(m_driverController.leftBumper())
-        .whileTrue(m_drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    m_driverController
-        .y()
-        .and(m_driverController.leftBumper())
         .whileTrue(m_drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
   }
 
