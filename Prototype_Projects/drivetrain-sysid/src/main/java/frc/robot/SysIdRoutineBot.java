@@ -56,7 +56,7 @@ public class SysIdRoutineBot {
         .and(m_driverController.rightBumper())
         .whileTrue(m_drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
     m_driverController
-        .b()
+        .b()    
         .and(m_driverController.rightBumper())
         .whileTrue(m_drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
     m_driverController

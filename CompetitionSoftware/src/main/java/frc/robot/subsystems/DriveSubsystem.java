@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class DriveSubsystem extends SubsystemBase
 {
@@ -23,7 +24,7 @@ public class DriveSubsystem extends SubsystemBase
   private DifferentialDrive m_Drivetrain;
   private double m_leftSpeed  = 0.0;
   private double m_rightSpeed = 0.0;
-  private double m_speedDivider = 1.0;
+  private double m_speedDivider = 2.0; // Default 1.0
   private double m_modeMultiplier = 1.0;
   private boolean m_driveStraight = false;
 
@@ -37,6 +38,14 @@ public class DriveSubsystem extends SubsystemBase
     // NOTE: Invert needs to be done for both motors BEFORE follow
     m_rightFrontMotor.setInverted(true);
     m_rightBackMotor.setInverted(true);
+
+    // Set all motors to brake mode for safety. In the default, coast mode,
+    // the robot takes very much longer to stop if the joystick is released or
+    // and emergency stop occurs. In this mode, it stops very quickly.
+    m_leftFrontMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_leftBackMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_rightFrontMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_rightBackMotor.setNeutralMode(NeutralModeValue.Brake);
 
     /* Set back motors to follow the front motors. */
     m_leftBackMotor.setControl(new Follower(m_leftFrontMotor.getDeviceID(), false));

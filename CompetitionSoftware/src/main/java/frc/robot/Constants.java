@@ -14,8 +14,8 @@ package frc.robot;
  */
 public final class Constants {
   public static class RobotConstants {
-    public static final double minPnuematicsPressure = 80.0;
-    public static final double maxPnuematicsPressure = 120.0;
+    public static final double minPnuematicsPressure = 80.0;  // default 80.0
+    public static final double maxPnuematicsPressure = 120.0; // default 120.0
 
     public static final int periodicTicksPerSecond = 50;
     public static final int pnuematicReportingFreq = 1;
@@ -43,7 +43,7 @@ public final class Constants {
 
     // Left Joystick
     public static final int kLowGear = 1; // Joystick Trigger
-    public static final int kReverseMode = 9; // Joystick button 9
+    public static final int kReverseMode = 11; // Joystick button 11
     public static final int kForwardMode = 7; // Joystick button 7
   
   }
