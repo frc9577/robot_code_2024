@@ -4,10 +4,7 @@
 
 package frc.robot;
 import frc.robot.Constants.*;
-import frc.robot.commands.AutonomousDrive2Sec;
-import frc.robot.commands.AutonomousDrive4Sec;
-import frc.robot.commands.AutonomousDrive6Sec;
-import frc.robot.commands.AutonomousPassLine;
+import frc.robot.commands.AutonomousDriveTimed;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.NoteHandlingSpeedCommand;
 import frc.robot.commands.RotateCommand;
@@ -122,10 +119,10 @@ public class RobotContainer {
   private void configureDriverStationControls()
   {
     // Drop-down chooser for auto program.
-    m_autoChooser.setDefaultOption("Pass Auto Line", new AutonomousPassLine(m_driveSubsystem));
-    m_autoChooser.addOption("Drive forward 2 Seconds", new AutonomousDrive2Sec(m_driveSubsystem));
-    m_autoChooser.addOption("Drive forward 4 Seconds", new AutonomousDrive4Sec(m_driveSubsystem));
-    m_autoChooser.addOption("Drive forward 6 Seconds", new AutonomousDrive6Sec(m_driveSubsystem));
+    m_autoChooser.setDefaultOption("Pass Auto Line", new AutonomousDriveTimed(m_driveSubsystem, AutoConstants.kPassLineDuration_mS));
+    m_autoChooser.addOption("Drive forward 2 Seconds", new AutonomousDriveTimed(m_driveSubsystem, 2000));
+    m_autoChooser.addOption("Drive forward 4 Seconds", new AutonomousDriveTimed(m_driveSubsystem, 4000));
+    m_autoChooser.addOption("Drive forward 6 Seconds", new AutonomousDriveTimed(m_driveSubsystem, 6000));
     SmartDashboard.putData(m_autoChooser);
   }
 
