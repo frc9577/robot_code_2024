@@ -7,18 +7,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class AutonomousDrive2Sec extends Command {
+public class AutonomousDrive extends Command {
   private final DriveSubsystem m_subsystem;
   private double m_leftSpeed = 0.0;
   private double m_rightSpeed = 0.0;
-  private long m_startTime;
 
   /**
    * Creates a new AutonomousDrive2Sec.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutonomousDrive2Sec(DriveSubsystem subsystem) 
+  public AutonomousDrive(DriveSubsystem subsystem) 
   {
     m_subsystem = subsystem;
 
@@ -29,7 +28,6 @@ public class AutonomousDrive2Sec extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_startTime = System.currentTimeMillis();
     m_subsystem.setTankSpeeds(0.0, 0.0);
 
     m_leftSpeed = AutoConstants.kPassLineSpeed;
@@ -51,6 +49,6 @@ public class AutonomousDrive2Sec extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (System.currentTimeMillis() - m_startTime) >= 2000;
+    return false; // <-- VERY SKETCHY !!
   }
 }

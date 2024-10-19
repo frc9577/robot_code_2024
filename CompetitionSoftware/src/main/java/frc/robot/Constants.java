@@ -24,7 +24,7 @@ public final class Constants {
   }
 
   public static class AutoConstants {
-    public static final long kPassLineDuration_mS = 2000;
+    public static final int kPassLineDuration_mS = 2000;
     public static final double kPassLineSpeed = 0.40;
   }
 
