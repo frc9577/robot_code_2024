@@ -4,12 +4,14 @@
 
 package frc.robot;
 import frc.robot.Constants.*;
+import frc.robot.commands.AutonomousDrive;
 import frc.robot.commands.AutonomousDriveTimed;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.NoteHandlingSpeedCommand;
 import frc.robot.commands.RotateCommand;
 import frc.robot.commands.SetGearCommand;
 import frc.robot.commands.SetModeCommand;
+import frc.robot.commands.TimedCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GooseRotationSubsystem;
 import frc.robot.subsystems.NoteHandlingSubsystem;
@@ -123,6 +125,10 @@ public class RobotContainer {
     m_autoChooser.addOption("Drive forward 2 Seconds", new AutonomousDriveTimed(m_driveSubsystem, 2000));
     m_autoChooser.addOption("Drive forward 4 Seconds", new AutonomousDriveTimed(m_driveSubsystem, 4000));
     m_autoChooser.addOption("Drive forward 6 Seconds", new AutonomousDriveTimed(m_driveSubsystem, 6000));
+
+    AutonomousDrive autoDrive = new AutonomousDrive(m_driveSubsystem);
+    m_autoChooser.addOption("Drive Forward 2 Seconds !! NOT TESTED !!", new TimedCommand(autoDrive, 2000));
+
     SmartDashboard.putData(m_autoChooser);
   }
 
