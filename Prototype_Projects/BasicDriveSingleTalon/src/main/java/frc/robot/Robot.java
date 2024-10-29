@@ -4,48 +4,89 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * This is a simple program supporting a basic drivetrain powered by a single Kraken (TalonFX)
  * on each side. The drivetrain is controlled via tank drive using two joysticks.
  */
 public class Robot extends TimedRobot {
-  private DifferentialDrive m_myRobot;
-  private Joystick m_leftStick;
+  private Command m_autonomousCommand;
 
-  private final TalonFX m_leftMotor  = new TalonFX(10);
-  private final TalonFX m_rightMotor = new TalonFX(20);
+  private RobotContainer m_robotContainer;
 
+  /**
+   * This function is run when the robot is first started up and should be used for any
+   * initialization code.
+   */
   @Override
   public void robotInit() {
-    // We need to invert one side of the drivetrain so that positive voltages
-    // result in both sides moving forward. Depending on how your robot's
-    // gearbox is constructed, you might have to invert the left side instead.
-    m_rightMotor.setInverted(true);
-
-    m_myRobot = new DifferentialDrive(m_leftMotor, m_rightMotor);
-    m_leftMotor.setPosition(0.0);
-    m_rightMotor.setPosition(0.0);
-
-    m_leftStick = new Joystick(0);
+    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+    // autonomous chooser on the dashboard.
+    m_robotContainer = new RobotContainer();
   }
+
+  /** This function is called once each time the robot enters Disabled mode. */
+  @Override
+  public void disabledInit() {}
+
+  @Override
+  public void disabledPeriodic() {}
+
+  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+  @Override
+  public void autonomousInit() {
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    // schedule the autonomous command (example)
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
+    }
+  }
+
+  /** This function is called periodically during autonomous. */
+  @Override
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
-    m_leftMotor.setPosition(0.0);
-    m_rightMotor.setPosition(0.0);
+    // This makes sure that the autonomous stops running when
+    // teleop starts running. If you want the autonomous to
+    // continue until interrupted by another command, remove
+    // this line or comment it out.
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
+    }
+
+    // Get the driver's choice of control system - arcade or tank drive.
+    m_robotContainer.setDriveType();
+    
+    //TODO Do all motors need to be turned off here?
+  }
+
+  /** This function is called periodically during operator control. */
+  @Override
+  public void teleopPeriodic() {
+    
   }
 
   @Override
-  public void teleopPeriodic() {
-    m_myRobot.arcadeDrive(-m_leftStick.getY(), -(m_leftStick.getTwist()/2.0), true);
-
-    SmartDashboard.putNumber("LeftPosition", m_leftMotor.getPosition().getValue());
-    SmartDashboard.putNumber("RightPosition", m_rightMotor.getPosition().getValue());
+  public void testInit() {
+    // Cancels all running commands at the start of test mode.
+    CommandScheduler.getInstance().cancelAll();
   }
+
+  /** This function is called periodically during test mode. */
+  @Override
+  public void testPeriodic() {}
+
+  /** This function is called once when the robot is first started up. */
+  @Override
+  public void simulationInit() {}
+
+  /** This function is called periodically whilst in simulation. */
+  @Override
+  public void simulationPeriodic() {}
 }
