@@ -27,4 +27,9 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kOperatorController = 2;
   }
+
+  public static class WheeledIntakeConstants {
+    public static final int kLeftMotorCANID = 30;
+    public static final int kRightMotorCANID = 40;
+  }
 }
