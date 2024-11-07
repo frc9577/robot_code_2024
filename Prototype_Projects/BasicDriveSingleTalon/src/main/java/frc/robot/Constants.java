@@ -20,8 +20,10 @@ public final class Constants {
 
   public static class DriverConstants {
     public static final int kDriveJoystick = 0;
-    
     public static final double kTurnDivider = 2.0;
+
+    // Buttons
+    public static final int kIntake = 1; // Joystick Trigger
   }
 
   public static class OperatorConstants {
@@ -31,5 +33,10 @@ public final class Constants {
   public static class WheeledIntakeConstants {
     public static final int kLeftMotorCANID = 30;
     public static final int kRightMotorCANID = 40;
+
+    public static final int kLeftMotorCurrentLimit = 30;
+    public static final int kRightMotorCurrentLimit = 30;
+
+    public static final double kRollerSpeed = -0.6; // "random" value
   }
 }

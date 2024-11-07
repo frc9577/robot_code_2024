@@ -10,9 +10,50 @@ import frc.robot.Constants.WheeledIntakeConstants;
 public class WheeledIntakeSubsystem extends SubsystemBase {
     private final CANSparkMax m_leftMotor = new CANSparkMax(WheeledIntakeConstants.kLeftMotorCANID,
                                                             MotorType.kBrushless);
+    private final CANSparkMax m_rightMotor = new CANSparkMax(WheeledIntakeConstants.kLeftMotorCANID,
+                                                            MotorType.kBrushless);
 
+    private double m_leftSpeed = 0.0;
+    private double m_rightSpeed = 0.0;
+
+    /** Creates a new WheeledIntakeSubsystem. */  
     public WheeledIntakeSubsystem()
     {
+        m_leftMotor.setSmartCurrentLimit(WheeledIntakeConstants.kLeftMotorCurrentLimit);
+        m_rightMotor.setSmartCurrentLimit(WheeledIntakeConstants.kRightMotorCurrentLimit);
+    }
 
+    public void setLeftSpeed(double speed)
+    {
+        m_leftMotor.set(speed);
+        m_leftSpeed = speed;
+    }
+
+    // Returns last COMMANDED speed
+    public double getLeftSpeed()
+    {
+        return m_leftSpeed;
+    }
+
+    public void setRightSpeed(double speed)
+    {
+        m_rightMotor.set(speed);
+        m_rightSpeed = speed;
+    }
+
+    // Returns last COMMANDED speed
+    public double getRightSpeed()
+    {
+        return m_rightSpeed;
+    }
+
+    @Override
+    public void periodic() {
+      // This method will be called once per scheduler run
+    }
+  
+    @Override
+    public void simulationPeriodic() {
+      // This method will be called once per scheduler run during simulation
     }
 }
