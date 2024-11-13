@@ -26,8 +26,7 @@ public class WheeledIntakeSpeedCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setLeftSpeed(m_speed);
-    m_subsystem.setRightSpeed(m_speed);
+    m_subsystem.setSpeed(m_speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

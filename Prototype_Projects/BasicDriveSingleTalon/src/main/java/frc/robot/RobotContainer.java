@@ -4,12 +4,13 @@
 
 package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.*;
 import frc.robot.commands.WheeledIntakeSpeedCommand;
-import frc.robot.subsystems.DriveSubsystem;
+//import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.WheeledIntakeSubsystem;
 
 /**
@@ -19,9 +20,13 @@ import frc.robot.subsystems.WheeledIntakeSubsystem;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+    private int m_tickCount = 0;
+
     // The robot's subsystems are defined here
-    private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+    //private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
     private final WheeledIntakeSubsystem m_wheeledIntakeSubsystem = new WheeledIntakeSubsystem();
+
+    // TODO: Control Speed via Slider axis 3 (need testing)
 
     // Joysticks
     //private final XboxController m_operatorController = new XboxController(OperatorConstants.kOperatorController);
@@ -31,17 +36,36 @@ public class RobotContainer {
     public final JoystickButton m_intakeButton =
         new JoystickButton(m_driverJoystick, DriverConstants.kIntake);
 
+    // Joystick Values
+    public Double m_driverThrottle = 0.0;
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
+
+        m_tickCount = 0;
+        periodicFunction();
+    }
+
+    public void periodicFunction() {
+        // Updating Values
+        m_driverThrottle = m_driverJoystick.getThrottle() * DriverConstants.kThrottleMultiplier;
+
+        // Reporting Status'
+        if(m_tickCount % (RobotConstants.periodicTicksPerSecond/RobotConstants.intakeReportingFreq) == 0)
+        {
+            SmartDashboard.putNumber("Intake Speed", m_driverThrottle);
+        }
+        m_tickCount += 1;
     }
 
     // The function that connects the buttons to commands / subsystems.
     private void configureBindings() 
     {
         // Wheeled Intake Bindings
-        m_intakeButton.onTrue(new WheeledIntakeSpeedCommand(m_wheeledIntakeSubsystem, WheeledIntakeConstants.kRollerSpeed));
+        // inversing the throttle so up = posive and down = negitive
+        m_intakeButton.onTrue(new WheeledIntakeSpeedCommand(m_wheeledIntakeSubsystem, m_driverThrottle));
         m_intakeButton.onFalse(new WheeledIntakeSpeedCommand(m_wheeledIntakeSubsystem, 0));
     }
 
@@ -57,6 +81,6 @@ public class RobotContainer {
     // Set drive command to arcade
     public void setDriveType()
     {
-        m_driveSubsystem.initDefaultCommand(m_driverJoystick);
+        //m_driveSubsystem.initDefaultCommand(m_driverJoystick);
     }
 }

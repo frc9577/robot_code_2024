@@ -13,6 +13,11 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static class RobotConstants {
+    public static final int periodicTicksPerSecond = 50;
+    public static final int intakeReportingFreq = 1;
+  }
+
   public static class DrivetrainConstants {
     public static final int kLeftMotorCANID  = 10;
     public static final int kRightMotorCANID = 20;
@@ -24,6 +29,7 @@ public final class Constants {
 
     // Buttons
     public static final int kIntake = 1; // Joystick Trigger
+    public static final double kThrottleMultiplier = -1.0;
   }
 
   public static class OperatorConstants {
@@ -34,8 +40,8 @@ public final class Constants {
     public static final int kLeftMotorCANID = 30;
     public static final int kRightMotorCANID = 40;
 
-    public static final int kLeftMotorCurrentLimit = 30;
-    public static final int kRightMotorCurrentLimit = 30;
+    public static final int kLeftMotorCurrentLimit = 3;
+    public static final int kRightMotorCurrentLimit = 3;
 
     public static final double kRollerSpeed = -0.6; // "random" value
   }
