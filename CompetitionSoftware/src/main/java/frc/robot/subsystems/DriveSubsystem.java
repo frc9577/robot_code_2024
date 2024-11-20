@@ -24,7 +24,7 @@ public class DriveSubsystem extends SubsystemBase
   private DifferentialDrive m_Drivetrain;
   private double m_leftSpeed  = 0.0;
   private double m_rightSpeed = 0.0;
-  private double m_speedDivider = 2.0; // Default 1.0
+  private double m_speedDivider = 2.5; // Default 1.0
   private double m_modeMultiplier = 1.0;
   private boolean m_driveStraight = false;
 
