@@ -33,7 +33,10 @@ public final class Constants {
   }
 
   public static class OperatorConstants {
-    public static final int kOperatorController = 2;
+    public static final int kOperatorController = 1;
+    
+    public static final int kRunForwardButton = 4; // Button Y
+    public static final int kRunBackwardButton = 3;  // Button X
   }
 
   public static class WheeledIntakeConstants {
@@ -44,5 +47,13 @@ public final class Constants {
     public static final int kRightMotorCurrentLimit = 3;
 
     public static final double kRollerSpeed = -0.6; // "random" value
+  }
+
+  public static class ClawdiaConstants {
+    public static final int kMotorCANID = 50;
+
+    public static final int kMotorCurrentLimit = 3;
+
+    public static final double kClawSpeed = 0.1; // low value for testing
   }
 }
