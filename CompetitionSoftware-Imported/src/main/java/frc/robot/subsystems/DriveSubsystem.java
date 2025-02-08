@@ -51,7 +51,7 @@ public class DriveSubsystem extends SubsystemBase
     m_leftBackMotor.setControl(new Follower(m_leftFrontMotor.getDeviceID(), false));
     m_rightBackMotor.setControl(new Follower(m_rightFrontMotor.getDeviceID(), false));
 
-    m_Drivetrain = new DifferentialDrive(m_leftFrontMotor, m_rightFrontMotor);
+    m_Drivetrain = new DifferentialDrive(m_leftFrontMotor::set, m_rightFrontMotor::set);
   }
 
   public void initDefaultCommand(Joystick leftJoystick)

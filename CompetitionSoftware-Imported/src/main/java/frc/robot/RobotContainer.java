@@ -7,14 +7,10 @@ import frc.robot.Constants.*;
 //import frc.robot.commands.AutonomousDrive;
 //import frc.robot.commands.AutonomousDriveTimed;
 import frc.robot.commands.ClimbCommand;
-import frc.robot.commands.NoteHandlingSpeedCommand;
-import frc.robot.commands.RotateCommand;
 import frc.robot.commands.SetGearCommand;
 import frc.robot.commands.SetModeCommand;
 //import frc.robot.commands.TimedCommand;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.GooseRotationSubsystem;
-import frc.robot.subsystems.NoteHandlingSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,8 +37,6 @@ public class RobotContainer {
   private final PneumaticHub   m_pnuematicHub   = new PneumaticHub();
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
-  private final GooseRotationSubsystem m_rotationSubsystem    = new GooseRotationSubsystem();
-  private final NoteHandlingSubsystem m_noteHandlingSubsystem = new NoteHandlingSubsystem();
 
   // Joysticks
   private final XboxController m_operatorController = new XboxController(OperatorConstants.kOperatorController);
@@ -108,9 +102,6 @@ public class RobotContainer {
     if(m_tickCount % (RobotConstants.periodicTicksPerSecond/RobotConstants.gooseReportingFreq) == 0)
     {
       // Report Goose ARM state.
-      SmartDashboard.putNumber("Goose Raw Measurement", m_rotationSubsystem.getEncoderValue());
-      SmartDashboard.putNumber("Goose Set Point", m_rotationSubsystem.getSetPointAngle());
-      SmartDashboard.putNumber("Goose Current Angle", m_rotationSubsystem.getAngle());
     }
     m_tickCount += 1;
   }
@@ -150,32 +141,6 @@ public class RobotContainer {
     // m_intakeAutoButton.onTrue(new AutoNoteIntakeCommand(m_noteHandlingSubsystem, 
     //                                                    NoteHandlingConstants.kIntakeSpeed));
 
-   m_intakeManualButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
-                                                            NoteHandlingConstants.kRollerSpeed, true));
-    m_intakeManualButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0, true));
-    
-    m_SpitOutButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
-                                                        -NoteHandlingConstants.kRollerSpeed, 
-                                                        false));
-    m_SpitOutButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 0.0, 
-                                                        false));
-                                                      
-
-    m_outputButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem, 
-                                                       NoteHandlingConstants.kRollerSpeed, false));
-    m_outputButton.onFalse(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0, false));
-
-    m_fullStopButton.onTrue(new NoteHandlingSpeedCommand(m_noteHandlingSubsystem,0.0, false));
-
-    // Goose Rotation Buttons
-    m_moveArmTopButton.onTrue(new RotateCommand(m_rotationSubsystem, 
-                                                GooseRotationConstants.kScoreAngle));
-    m_moveArmMiddleButton.onTrue(new RotateCommand(m_rotationSubsystem, 
-                                                GooseRotationConstants.kMiddleAngle));
-    m_moveArmBottomButton.onTrue(new RotateCommand(m_rotationSubsystem, 
-                                                   GooseRotationConstants.kIntakeAngle));
-
-    m_rotationSubsystem.initDefaultCommand(m_operatorController);
   }
 
   /**
