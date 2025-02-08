@@ -3,24 +3,32 @@
 package frc.robot.commands;
 
 import frc.robot.Constants.*;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class AutonomousDrive4Sec extends Command {
+public class AutonomousDriveTimed extends Command {
   private final DriveSubsystem m_subsystem;
   private double m_leftSpeed = 0.0;
   private double m_rightSpeed = 0.0;
   private long m_startTime;
+  private int m_executeTime;
 
   /**
-   * Creates a new AutonomousDrive4Sec.
+   * Creates a new AutonomousDrive2Sec.
    *
    * @param subsystem The subsystem used by this command.
+   * @param executeTime wants time in positive miliseconds
    */
-  public AutonomousDrive4Sec(DriveSubsystem subsystem) 
+  public AutonomousDriveTimed(DriveSubsystem subsystem, int executeTime) 
   {
     m_subsystem = subsystem;
+
+    if (executeTime < 0) {
+      DriverStation.reportError("executeTime in AutonomusDrive Constructor is negative", null);
+    } 
+    m_executeTime = executeTime;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
@@ -51,6 +59,6 @@ public class AutonomousDrive4Sec extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (System.currentTimeMillis() - m_startTime) >= 4000;
+    return (System.currentTimeMillis() - m_startTime) >= m_executeTime;
   }
 }
